@@ -221,34 +221,31 @@ export var Edge = function (scene, edge, controls) {
 
       var geometry = new THREE.ShapeGeometry(shape);
 
-      geometry.vertices.forEach((v) => {
-        v.applyMatrix4(invTransform);
-      });
+      // Transform vertices
+      geometry.applyMatrix4(invTransform);
 
       // make UVs
       var totalDistance = Utils.distance(v1.x, v1.z, v2.x, v2.z);
       var height = wall.height;
-      geometry.faceVertexUvs[0] = [];
 
-      function vertexToUv(vertex) {
-        var x = Utils.distance(v1.x, v1.z, vertex.x, vertex.z) / totalDistance;
-        var y = vertex.y / height;
-        return new THREE.Vector2(x, y);
+      // Get position attribute
+      var positionAttribute = geometry.getAttribute('position');
+      var uvs: number[] = [];
+
+      // Calculate UVs based on vertex positions
+      for (let i = 0; i < positionAttribute.count; i++) {
+        var x = positionAttribute.getX(i);
+        var y = positionAttribute.getY(i);
+        var z = positionAttribute.getZ(i);
+
+        var vertex = new THREE.Vector3(x, y, z);
+        var u = Utils.distance(v1.x, v1.z, vertex.x, vertex.z) / totalDistance;
+        var v = vertex.y / height;
+
+        uvs.push(u, v);
       }
 
-      geometry.faces.forEach((face) => {
-        var vertA = geometry.vertices[face.a];
-        var vertB = geometry.vertices[face.b];
-        var vertC = geometry.vertices[face.c];
-        geometry.faceVertexUvs[0].push([
-          vertexToUv(vertA),
-          vertexToUv(vertB),
-          vertexToUv(vertC)]);
-      });
-
-      geometry.faceVertexUvs[1] = geometry.faceVertexUvs[0];
-
-      geometry.computeFaceNormals();
+      geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
       geometry.computeVertexNormals();
 
       var mesh = new THREE.Mesh(

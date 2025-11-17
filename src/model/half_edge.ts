@@ -152,7 +152,7 @@ export class HalfEdge {
       var tr = new THREE.Matrix4();
       tr.makeRotationY(-angle);
       transform.multiplyMatrices(tr, tt);
-      invTransform.getInverse(transform);
+      invTransform.copy(transform).invert();
     }
 
     /** Gets the distance from specified point.
