@@ -1,3 +1,9 @@
+/** Reusable 2D point shape. */
+export interface Point {
+  x: number;
+  y: number;
+}
+
 /** Collection of utility functions. */
 export class Utils {
 
@@ -26,7 +32,7 @@ export class Utils {
      * @param y2 Line-Point 2's y coordinate.
      * @returns The point.
      */
-    static closestPointOnLine(x: number, y: number, x1: number, y1: number, x2: number, y2: number): { x: number, y: number } {
+    static closestPointOnLine(x: number, y: number, x1: number, y1: number, x2: number, y2: number): Point {
       // Inspired by: http://stackoverflow.com/a/6853926
       var tA = x - x1;
       var tB = y - y1;
@@ -37,7 +43,7 @@ export class Utils {
       var tLenSq = tC * tC + tD * tD;
       var tParam = tDot / tLenSq;
 
-      var tXx, tYy;
+      var tXx: number, tYy: number;
 
       if (tParam < 0 || (x1 == x2 && y1 == y2)) {
         tXx = x1;
@@ -82,7 +88,7 @@ export class Utils {
     }
 
     /** shifts angle to be 0 to 2pi */
-    static angle2pi(x1: number, y1: number, x2: number, y2: number) {
+    static angle2pi(x1: number, y1: number, x2: number, y2: number): number {
       var tTheta = Utils.angle(x1, y1, x2, y2);
       if (tTheta < 0) {
         tTheta += 2 * Math.PI;
@@ -94,7 +100,7 @@ export class Utils {
      * @param points Is array of points with x,y attributes
      * @returns True if clockwise.
      */
-    static isClockwise(points): boolean {
+    static isClockwise(points: Point[]): boolean {
       // make positive
       let tSubX = Math.min(0, Math.min.apply(null, Utils.map(points, function (p) {
         return p.x;
@@ -115,7 +121,7 @@ export class Utils {
       var tSum = 0;
       for (var tI = 0; tI < tNewPoints.length; tI++) {
         var tC1 = tNewPoints[tI];
-        var tC2: any;
+        var tC2: Point;
         if (tI == tNewPoints.length - 1) {
           tC2 = tNewPoints[0];
         }
@@ -142,10 +148,10 @@ export class Utils {
     }
 
     /** both arguments are arrays of corners with x,y attributes */
-    static polygonPolygonIntersect(firstCorners, secondCorners): boolean {
+    static polygonPolygonIntersect(firstCorners: Point[], secondCorners: Point[]): boolean {
       for (var tI = 0; tI < firstCorners.length; tI++) {
         var tFirstCorner = firstCorners[tI],
-          tSecondCorner;
+          tSecondCorner: Point;
 
         if (tI == firstCorners.length - 1) {
           tSecondCorner = firstCorners[0];
@@ -165,10 +171,10 @@ export class Utils {
     }
 
     /** Corners is an array of points with x,y attributes */
-    static linePolygonIntersect(x1: number, y1: number, x2: number, y2: number, corners): boolean {
+    static linePolygonIntersect(x1: number, y1: number, x2: number, y2: number, corners: Point[]): boolean {
       for (var tI = 0; tI < corners.length; tI++) {
         var tFirstCorner = corners[tI],
-          tSecondCorner;
+          tSecondCorner: Point;
         if (tI == corners.length - 1) {
           tSecondCorner = corners[0];
         }
@@ -187,7 +193,7 @@ export class Utils {
 
     /** */
     static lineLineIntersect(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): boolean {
-      function tCCW(p1, p2, p3) {
+      function tCCW(p1: Point, p2: Point, p3: Point): boolean {
         var tA = p1.x,
           tB = p1.y,
           tC = p2.x,
@@ -209,7 +215,7 @@ export class Utils {
       @param startX X start coord for raycast
       @param startY Y start coord for raycast
     */
-    static pointInPolygon(x: number, y: number, corners, startX?: number, startY?: number): boolean {
+    static pointInPolygon(x: number, y: number, corners: Point[], startX?: number, startY?: number): boolean {
       startX = startX || 0;
       startY = startY || 0;
 
@@ -229,7 +235,7 @@ export class Utils {
       var tIntersects = 0;
       for (var tI = 0; tI < corners.length; tI++) {
         var tFirstCorner = corners[tI],
-          tSecondCorner;
+          tSecondCorner: Point;
         if (tI == corners.length - 1) {
           tSecondCorner = corners[0];
         }
@@ -248,7 +254,7 @@ export class Utils {
     }
 
     /** Checks if all corners of insideCorners are inside the polygon described by outsideCorners */
-    static polygonInsidePolygon(insideCorners, outsideCorners, startX: number, startY: number): boolean {
+    static polygonInsidePolygon(insideCorners: Point[], outsideCorners: Point[], startX?: number, startY?: number): boolean {
       startX = startX || 0;
       startY = startY || 0;
 
@@ -264,7 +270,7 @@ export class Utils {
     }
 
     /** Checks if any corners of firstCorners is inside the polygon described by secondCorners */
-    static polygonOutsidePolygon(insideCorners, outsideCorners, startX: number, startY: number): boolean {
+    static polygonOutsidePolygon(insideCorners: Point[], outsideCorners: Point[], startX?: number, startY?: number): boolean {
       startX = startX || 0;
       startY = startY || 0;
 
@@ -281,20 +287,20 @@ export class Utils {
 
     // arrays
 
-    static forEach(array, action) {
+    static forEach<T>(array: T[], action: (item: T) => void): void {
       for (var tI = 0; tI < array.length; tI++) {
         action(array[tI]);
       }
     }
 
-    static forEachIndexed(array, action) {
+    static forEachIndexed<T>(array: T[], action: (index: number, item: T) => void): void {
       for (var tI = 0; tI < array.length; tI++) {
         action(tI, array[tI]);
       }
     }
 
-    static map(array, func) {
-      var tResult = [];
+    static map<T, R>(array: T[], func: (element: T) => R): R[] {
+      var tResult: R[] = [];
       array.forEach((element) => {
         tResult.push(func(element));
       });
@@ -302,8 +308,8 @@ export class Utils {
     }
 
     /** Remove elements in array if func(element) returns true */
-    static removeIf(array, func) {
-      var tResult = [];
+    static removeIf<T>(array: T[], func: (element: T) => boolean): T[] {
+      var tResult: T[] = [];
       array.forEach((element) => {
         if (!func(element)) {
           tResult.push(element);
@@ -313,30 +319,33 @@ export class Utils {
     }
 
     /** Shift the items in an array by shift (positive integer) */
-    static cycle(arr, shift) {
+    static cycle<T>(arr: T[], shift: number): T[] {
       var tReturn = arr.slice(0);
       for (var tI = 0; tI < shift; tI++) {
         var tmp = tReturn.shift();
-        tReturn.push(tmp);
+        if (tmp !== undefined) {
+          tReturn.push(tmp);
+        }
       }
       return tReturn;
     }
 
     /** Returns in the unique elemnts in arr */
-    static unique(arr, hashFunc) {
-      var tResults = [];
-      var tMap = {};
+    static unique<T>(arr: T[], hashFunc: (value: T) => PropertyKey): T[] {
+      var tResults: T[] = [];
+      var tMap: Record<string | number | symbol, boolean> = {};
       for (var tI = 0; tI < arr.length; tI++) {
-        if (!tMap.hasOwnProperty(arr[tI])) {
+        var tKey = hashFunc(arr[tI]);
+        if (!Object.prototype.hasOwnProperty.call(tMap, tKey)) {
           tResults.push(arr[tI]);
-          tMap[hashFunc(arr[tI])] = true;
+          tMap[tKey] = true;
         }
       }
       return tResults;
     }
 
     /** Remove value from array, if it is present */
-    static removeValue(array, value) {
+    static removeValue<T>(array: T[], value: T): void {
       for (var tI = array.length - 1; tI >= 0; tI--) {
         if (array[tI] === value) {
           array.splice(tI, 1);
@@ -345,7 +354,7 @@ export class Utils {
     }
 
     /** Checks if value is in array */
-    static hasValue = function (array, value): boolean {
+    static hasValue = function <T>(array: T[], value: T): boolean {
       for (var tI = 0; tI < array.length; tI++) {
         if (array[tI] === value) {
           return true;
@@ -355,7 +364,7 @@ export class Utils {
     }
 
     /** Subtracts the elements in subArray from array */
-    static subtract(array, subArray) {
+    static subtract<T>(array: T[], subArray: T[]): T[] {
       return Utils.removeIf(array, function (el) {
         return Utils.hasValue(subArray, el);
       });
