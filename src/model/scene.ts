@@ -1,19 +1,20 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../core/utils.ts" />
-/// <reference path="../items/factory.ts" />
+import * as THREE from 'three';
+import $ from 'jquery';
+import { Utils } from '../core/utils';
+import { Factory } from '../items/factory';
+import type { Item } from '../items/item';
+import type { Model } from './model';
 
-module BP3D.Model {
-  /**
-   * The Scene is a manager of Items and also links to a ThreeJS scene.
-   */
-  export class Scene {
+/**
+ * The Scene is a manager of Items and also links to a ThreeJS scene.
+ */
+export class Scene {
 
     /** The associated ThreeJS scene. */
     private scene: THREE.Scene;
 
     /** */
-    private items: Items.Item[] = [];
+    private items: Item[] = [];
 
     /** */
     public needsUpdate = false;
@@ -55,7 +56,7 @@ module BP3D.Model {
      */
     public remove(mesh: THREE.Mesh) {
       this.scene.remove(mesh);
-      Core.Utils.removeValue(this.items, mesh);
+      Utils.removeValue(this.items, mesh);
     }
 
     /** Gets the scene.
@@ -68,7 +69,7 @@ module BP3D.Model {
     /** Gets the items.
      * @returns The items.
      */
-    public getItems(): Items.Item[] {
+    public getItems(): Item[] {
       return this.items;
     }
 
@@ -94,14 +95,14 @@ module BP3D.Model {
      * @param item The item to be removed.
      * @param dontRemove If not set, also remove the item from the items list.
      */
-    public removeItem(item: Items.Item, dontRemove?: boolean) {
+    public removeItem(item: Item, dontRemove?: boolean) {
       dontRemove = dontRemove || false;
       // use this for item meshes
       this.itemRemovedCallbacks.fire(item);
       item.removed();
       this.scene.remove(item);
       if (!dontRemove) {
-        Core.Utils.removeValue(this.items, item);
+        Utils.removeValue(this.items, item);
       }
     }
 
@@ -119,7 +120,7 @@ module BP3D.Model {
       itemType = itemType || 1;
       var scope = this;
       var loaderCallback = function (geometry: THREE.Geometry, materials: THREE.Material[]) {
-        var item = new (Items.Factory.getClass(itemType))(
+        var item = new (Factory.getClass(itemType))(
           scope.model,
           metadata, geometry,
           new THREE.MeshFaceMaterial(materials),
@@ -136,8 +137,7 @@ module BP3D.Model {
       this.loader.load(
         fileName,
         loaderCallback,
-        undefined // TODO_Ekki 
+        undefined // TODO_Ekki
       );
     }
   }
-}

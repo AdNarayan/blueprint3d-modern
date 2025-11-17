@@ -41,7 +41,7 @@ export { Skybox } from './three/skybox';
 
 // Floorplanner modules
 export { Floorplanner } from './floorplanner/floorplanner';
-export { FloorplannerView } from './floorplanner/floorplanner_view';
+export { FloorplannerView, floorplannerModes } from './floorplanner/floorplanner_view';
 
 // Main Blueprint3D class
 export { Blueprint3d, type Options } from './blueprint3d';

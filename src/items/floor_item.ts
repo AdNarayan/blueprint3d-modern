@@ -1,14 +1,14 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../model/model.ts" />
-/// <reference path="item.ts" />
-/// <reference path="metadata.ts" />
+import * as THREE from 'three';
+import { Utils } from '../core/utils';
+import { Model } from '../model/model';
+import { Item } from './item';
+import { Metadata } from './metadata';
 
-module BP3D.Items {
-  /**
-   * A Floor Item is an entity to be placed related to a floor.
-   */
-  export abstract class FloorItem extends Item {
-    constructor(model: Model.Model, metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
+/**
+ * A Floor Item is an entity to be placed related to a floor.
+ */
+export abstract class FloorItem extends Item {
+  constructor(model: Model, metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
       super(model, metadata, geometry, material, position, rotation, scale);
     };
 
@@ -48,8 +48,8 @@ module BP3D.Items {
       var rooms = this.model.floorplan.getRooms();
       var isInARoom = false;
       for (var i = 0; i < rooms.length; i++) {
-        if (Core.Utils.pointInPolygon(vec3.x, vec3.z, rooms[i].interiorCorners) &&
-          !Core.Utils.polygonPolygonIntersect(corners, rooms[i].interiorCorners)) {
+        if (Utils.pointInPolygon(vec3.x, vec3.z, rooms[i].interiorCorners) &&
+          !Utils.polygonPolygonIntersect(corners, rooms[i].interiorCorners)) {
           isInARoom = true;
         }
       }
@@ -77,4 +77,3 @@ module BP3D.Items {
       return true;
     }
   }
-}

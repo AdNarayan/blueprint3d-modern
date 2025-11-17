@@ -1,7 +1,5 @@
-module BP3D.Core {
-
-  /** Collection of utility functions. */
-  export class Utils {
+/** Collection of utility functions. */
+export class Utils {
 
     /** Determines the distance of a point from a line.
      * @param x Point's x coordinate.
@@ -363,4 +361,3 @@ module BP3D.Core {
       });
     }
   }
-}

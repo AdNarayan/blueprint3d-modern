@@ -1,15 +1,14 @@
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="controller.ts" />
-/// <reference path="floorPlan.ts" />
-/// <reference path="lights.ts" />
-/// <reference path="skybox.ts" />
-/// <reference path="controls.ts" />
-/// <reference path="hud.ts" />
+import * as THREE from 'three';
+import $ from 'jquery';
+import { Controller } from './controller';
+import { Floorplan } from './floorplan';
+import { Lights } from './lights';
+import { Skybox } from './skybox';
+import { Controls } from './controls';
+import { HUD } from './hud';
 
-module BP3D.Three {
-  export var Main = function (model, element, canvasElement, opts) {
-    var scope = this;
+export var Main = function (model, element, canvasElement, opts) {
+  var scope = this;
 
     var options = {
       resize: true,
@@ -77,13 +76,13 @@ module BP3D.Three {
       renderer.shadowMapSoft = true;
       renderer.shadowMapType = THREE.PCFSoftShadowMap;
 
-      var skybox = new Three.Skybox(scene);
+      var skybox = new Skybox(scene);
 
-      scope.controls = new Three.Controls(camera, domElement);
+      scope.controls = new Controls(camera, domElement);
 
-      hud = new Three.HUD(scope);
+      hud = new HUD(scope);
 
-      controller = new Three.Controller(
+      controller = new Controller(
         scope, model, camera, scope.element, scope.controls, hud);
 
       domElement.appendChild(renderer.domElement);
@@ -98,9 +97,9 @@ module BP3D.Three {
       scope.centerCamera();
       model.floorplan.fireOnUpdatedRooms(scope.centerCamera);
 
-      var lights = new Three.Lights(scene, model.floorplan);
+      var lights = new Lights(scene, model.floorplan);
 
-      floorplan = new Three.Floorplan(scene,
+      floorplan = new Floorplan(scene,
         model.floorplan, scope.controls);
 
       animate();
@@ -262,6 +261,5 @@ module BP3D.Three {
       return vec2;
     }
 
-    init();
-  }
+  init();
 }

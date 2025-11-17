@@ -1,11 +1,10 @@
-/// <reference path="../../lib/three.d.ts" />
+import * as THREE from 'three';
 
-module BP3D.Three {
-  export var Skybox = function (scene) {
+export var Skybox = function (scene) {
 
-    var scope = this;
+  var scope = this;
 
-    var scene = scene;
+  var scene = scene;
 
     var topColor = 0xffffff;//0xD8ECF9
     var bottomColor = 0xe9e9e9; //0xf9f9f9;//0x565e63
@@ -64,6 +63,5 @@ module BP3D.Three {
       scene.add(sky);
     }
 
-    init();
-  }
+  init();
 }

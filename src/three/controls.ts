@@ -8,14 +8,13 @@ Contributors:
  * @author erich666 / http://erichaines.com
  */
 
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../../lib/three.d.ts" />
+import * as THREE from 'three';
+import $ from 'jquery';
 
-module BP3D.Three {
-  export var Controls = function (object, domElement) {
+export var Controls = function (object, domElement) {
 
-    this.object = object;
-    this.domElement = (domElement !== undefined) ? domElement : document;
+  this.object = object;
+  this.domElement = (domElement !== undefined) ? domElement : document;
 
     // Set to false to disable this control
     this.enabled = true;
@@ -513,6 +512,5 @@ module BP3D.Three {
     this.domElement.addEventListener('touchend', touchend, false);
     this.domElement.addEventListener('touchmove', touchmove, false);
 
-    window.addEventListener('keydown', onKeyDown, false);
-  };
-}
+  window.addEventListener('keydown', onKeyDown, false);
+};

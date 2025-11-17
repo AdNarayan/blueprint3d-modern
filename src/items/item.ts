@@ -1,17 +1,17 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../core/utils.ts" />
-/// <reference path="../model/model.ts" />
-/// <reference path="metadata.ts" />
+import * as THREE from 'three';
+import { Utils } from '../core/utils';
+import { Model } from '../model/model';
+import { Scene } from '../model/scene';
+import { Metadata } from './metadata';
 
-module BP3D.Items {
-  /**
-   * An Item is an abstract entity for all things placed in the scene,
-   * e.g. at walls or on the floor.
-   */
-  export abstract class Item extends THREE.Mesh {
+/**
+ * An Item is an abstract entity for all things placed in the scene,
+ * e.g. at walls or on the floor.
+ */
+export abstract class Item extends THREE.Mesh {
 
-    /** */
-    private scene: Model.Scene;
+  /** */
+  private scene: Scene;
 
     /** */
     private errorGlow = new THREE.Mesh();
@@ -55,16 +55,16 @@ module BP3D.Items {
     /** */
     protected halfSize: THREE.Vector3;
 
-    /** Constructs an item. 
+    /** Constructs an item.
      * @param model TODO
      * @param metadata TODO
      * @param geometry TODO
      * @param material TODO
      * @param position TODO
      * @param rotation TODO
-     * @param scale TODO 
+     * @param scale TODO
      */
-    constructor(protected model: Model.Model, public metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
+    constructor(protected model: Model, public metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
       super();
 
       this.scene = this.model.scene;
@@ -219,7 +219,7 @@ module BP3D.Items {
     /** */
     public rotate(intersection) {
       if (intersection) {
-        var angle = Core.Utils.angle(
+        var angle = Utils.angle(
           0,
           1,
           intersection.point.x - this.position.x,
@@ -354,4 +354,3 @@ module BP3D.Items {
       return glow;
     };
   }
-}

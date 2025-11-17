@@ -1,25 +1,23 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../core/configuration.ts" />
-/// <reference path="../core/utils.ts" />
-/// <reference path="../items/item.ts" />
-/// <reference path="corner.ts" />
-/// <reference path="half_edge.ts" />
+import $ from 'jquery';
+import { Configuration, configWallThickness, configWallHeight } from '../core/configuration';
+import { Utils } from '../core/utils';
+import type { Item } from '../items/item';
+import type { Corner } from './corner';
+import type { HalfEdge } from './half_edge';
 
-module BP3D.Model {
-  /** The default wall texture. */
-  const defaultWallTexture = {
-    url: "rooms/textures/wallmap.png",
-    stretch: true,
-    scale: 0
-  }
+/** The default wall texture. */
+const defaultWallTexture = {
+  url: "rooms/textures/wallmap.png",
+  stretch: true,
+  scale: 0
+}
 
-  /** 
-   * A Wall is the basic element to create Rooms.
-   * 
-   * Walls consists of two half edges.
-   */
-  export class Wall {
+/**
+ * A Wall is the basic element to create Rooms.
+ *
+ * Walls consists of two half edges.
+ */
+export class Wall {
 
     /** The unique id of each wall. */
     private id: string;
@@ -34,10 +32,10 @@ module BP3D.Model {
     public orphan = false;
 
     /** Items attached to this wall */
-    public items: Items.Item[] = [];
+    public items: Item[] = [];
 
     /** */
-    public onItems: Items.Item[] = [];
+    public onItems: Item[] = [];
 
     /** The front-side texture. */
     public frontTexture = defaultWallTexture;
@@ -46,10 +44,10 @@ module BP3D.Model {
     public backTexture = defaultWallTexture;
 
     /** Wall thickness. */
-    public thickness = Core.Configuration.getNumericValue(Core.configWallThickness);
+    public thickness = Configuration.getNumericValue(configWallThickness);
 
     /** Wall height. */
-    public height = Core.Configuration.getNumericValue(Core.configWallHeight);
+    public height = Configuration.getNumericValue(configWallHeight);
 
     /** Actions to be applied after movement. */
     private moved_callbacks = $.Callbacks();
@@ -171,7 +169,7 @@ module BP3D.Model {
     }
 
     public distanceFrom(x: number, y: number): number {
-      return Core.Utils.pointDistanceFromLine(x, y,
+      return Utils.pointDistanceFromLine(x, y,
         this.getStartX(), this.getStartY(),
         this.getEndX(), this.getEndY());
     }
@@ -190,4 +188,3 @@ module BP3D.Model {
       }
     }
   }
-}

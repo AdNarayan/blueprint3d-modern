@@ -1,14 +1,12 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../core/utils.ts" />
+import * as THREE from 'three';
 
-module BP3D.Three {
-  /**
-   * Drawings on "top" of the scene. e.g. rotate arrows
-   */
-  export var HUD = function (three) {
-    var scope = this;
-    var three = three;
-    var scene = new THREE.Scene();
+/**
+ * Drawings on "top" of the scene. e.g. rotate arrows
+ */
+export var HUD = function (three) {
+  var scope = this;
+  var three = three;
+  var scene = new THREE.Scene();
 
     var selectedItem = null;
 
@@ -159,6 +157,5 @@ module BP3D.Three {
       return object;
     }
 
-    init();
-  }
+  init();
 }

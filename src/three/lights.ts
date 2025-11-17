@@ -1,11 +1,10 @@
-/// <reference path="../../lib/three.d.ts" />
+import * as THREE from 'three';
 
-module BP3D.Three {
-  export var Lights = function (scene, floorplan) {
+export var Lights = function (scene, floorplan) {
 
-    var scope = this;
-    var scene = scene;
-    var floorplan = floorplan;
+  var scope = this;
+  var scene = scene;
+  var floorplan = floorplan;
 
     var tol = 1;
     var height = 300; // TODO: share with Blueprint.Wall
@@ -67,6 +66,5 @@ module BP3D.Three {
       }
     }
 
-    init();
-  }
+  init();
 }

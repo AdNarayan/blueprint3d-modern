@@ -1,15 +1,13 @@
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../core/utils.ts" />
+import * as THREE from 'three';
+import { Utils } from '../core/utils';
 
-module BP3D.Three {
-  export var Edge = function (scene, edge, controls) {
-    var scope = this;
-    var scene = scene;
-    var edge = edge;
-    var controls = controls;
-    var wall = edge.wall;
-    var front = edge.front;
+export var Edge = function (scene, edge, controls) {
+  var scope = this;
+  var scene = scene;
+  var edge = edge;
+  var controls = controls;
+  var wall = edge.wall;
+  var front = edge.front;
 
     var planes = [];
     var basePlanes = []; // always visible
@@ -226,12 +224,12 @@ module BP3D.Three {
       });
 
       // make UVs
-      var totalDistance = Core.Utils.distance(v1.x, v1.z, v2.x, v2.z);
+      var totalDistance = Utils.distance(v1.x, v1.z, v2.x, v2.z);
       var height = wall.height;
       geometry.faceVertexUvs[0] = [];
 
       function vertexToUv(vertex) {
-        var x = Core.Utils.distance(v1.x, v1.z, vertex.x, vertex.z) / totalDistance;
+        var x = Utils.distance(v1.x, v1.z, vertex.x, vertex.z) / totalDistance;
         var y = vertex.y / height;
         return new THREE.Vector2(x, y);
       }
@@ -313,6 +311,5 @@ module BP3D.Three {
       return new THREE.Vector3(pos.x, height, pos.y);
     }
 
-    init();
-  }
+  init();
 }

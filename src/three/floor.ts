@@ -1,13 +1,11 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../core/utils.ts" />
+import * as THREE from 'three';
 
-module BP3D.Three {
-  export var Floor = function (scene, room) {
+export var Floor = function (scene, room) {
 
-    var scope = this;
+  var scope = this;
 
-    this.room = room;
-    var scene = scene;
+  this.room = room;
+  var scene = scene;
 
     var floorPlane = null;
     var roofPlane = null;
@@ -94,10 +92,9 @@ module BP3D.Three {
       scene.add(room.floorPlane);
     }
 
-    this.removeFromScene = function () {
-      scene.remove(floorPlane);
-      //scene.remove(roofPlane);
-      scene.remove(room.floorPlane);
-    }
+  this.removeFromScene = function () {
+    scene.remove(floorPlane);
+    //scene.remove(roofPlane);
+    scene.remove(room.floorPlane);
   }
 }

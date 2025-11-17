@@ -1,9 +1,9 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../core/utils.ts" />
-/// <reference path="corner.ts" />
-/// <reference path="floorplan.ts" />
-/// <reference path="half_edge.ts" />
+import * as THREE from 'three';
+import $ from 'jquery';
+import { Utils } from '../core/utils';
+import type { Corner } from './corner';
+import type { Floorplan } from './floorplan';
+import { HalfEdge } from './half_edge';
 
 /*
 TODO
@@ -12,18 +12,16 @@ var segseg = require('segseg')
 var Polygon = require('polygon')
 */
 
-module BP3D.Model {
+/** Default texture to be used if nothing is provided. */
+const defaultRoomTexture = {
+  url: "rooms/textures/hardwood.png",
+  scale: 400
+}
 
-  /** Default texture to be used if nothing is provided. */
-  const defaultRoomTexture = {
-    url: "rooms/textures/hardwood.png",
-    scale: 400
-  }
-
-  /** 
-   * A Room is the combination of a Floorplan with a floor plane. 
-   */
-  export class Room {
+/**
+ * A Room is the combination of a Floorplan with a floor plane.
+ */
+export class Room {
 
     /** */
     public interiorCorners: Corner[] = [];
@@ -49,8 +47,8 @@ module BP3D.Model {
       this.generatePlane();
     }
 
-    private getUuid(): string {
-      var cornerUuids = Core.Utils.map(this.corners, function (c) {
+    public getUuid(): string {
+      var cornerUuids = Utils.map(this.corners, function (c) {
         return c.id;
       });
       cornerUuids.sort();
@@ -67,7 +65,7 @@ module BP3D.Model {
       return tex || defaultRoomTexture;
     }
 
-    /** 
+    /**
      * textureStretch always true, just an argument for consistency with walls
      */
     private setTexture(textureUrl: string, textureStretch, textureScale: number) {
@@ -115,7 +113,7 @@ module BP3D.Model {
       }
     }
 
-    /** 
+    /**
      * Populates each wall's half edge relating to this room
      * this creates a fancy doubly connected edge list (DCEL)
      */
@@ -159,4 +157,3 @@ module BP3D.Model {
       this.edgePointer = firstEdge;
     }
   }
-}

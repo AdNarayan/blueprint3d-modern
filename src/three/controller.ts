@@ -1,21 +1,19 @@
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../core/utils.ts" />
+import * as THREE from 'three';
+import { Utils } from '../core/utils';
 
-module BP3D.Three {
-  export var Controller = function (three, model, camera, element, controls, hud) {
+export var Controller = function (three, model, camera, element, controls, hud) {
 
-    var scope = this;
+  var scope = this;
 
-    this.enabled = true;
+  this.enabled = true;
 
-    var three = three;
-    var model = model;
-    var scene = model.scene;
-    var element = element;
-    var camera = camera;
-    var controls = controls;
-    var hud = hud;
+  var three = three;
+  var model = model;
+  var scene = model.scene;
+  var element = element;
+  var camera = camera;
+  var controls = controls;
+  var hud = hud;
 
     var plane; // ground plane used for intersection testing
 
@@ -383,14 +381,14 @@ module BP3D.Three {
       }
       // filter by visible, if true
       if (onlyVisible) {
-        intersections = Core.Utils.removeIf(intersections, function (intersection) {
+        intersections = Utils.removeIf(intersections, function (intersection) {
           return !intersection.object.visible;
         });
       }
 
       // filter by normals, if true
       if (filterByNormals) {
-        intersections = Core.Utils.removeIf(intersections, function (intersection) {
+        intersections = Utils.removeIf(intersections, function (intersection) {
           var dot = intersection.face.normal.dot(direction);
           return (dot > 0)
         });
@@ -443,6 +441,5 @@ module BP3D.Three {
       }
     }
 
-    init();
-  }
+  init();
 }

@@ -1,13 +1,12 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="floorplan.ts" />
-/// <reference path="scene.ts" />
+import * as THREE from 'three';
+import $ from 'jquery';
+import { Floorplan } from './floorplan';
+import { Scene } from './scene';
 
-module BP3D.Model {
-  /** 
-   * A Model connects a Floorplan and a Scene. 
-   */
-  export class Model {
+/**
+ * A Model connects a Floorplan and a Scene.
+ */
+export class Model {
 
     /** */
     public floorplan: Floorplan;
@@ -105,4 +104,3 @@ module BP3D.Model {
       });
     }
   }
-}
