@@ -85,19 +85,19 @@ export class Floorplan {
       });
     }
 
-    public fireOnNewWall(callback) {
+    public fireOnNewWall(callback: (wall: Wall) => void): void {
       this.new_wall_callbacks.add(callback);
     }
 
-    public fireOnNewCorner(callback) {
+    public fireOnNewCorner(callback: (corner: Corner) => void): void {
       this.new_corner_callbacks.add(callback);
     }
 
-    public fireOnRedraw(callback) {
+    public fireOnRedraw(callback: () => void): void {
       this.redraw_callbacks.add(callback);
     }
 
-    public fireOnUpdatedRooms(callback) {
+    public fireOnUpdatedRooms(callback: () => void): void {
       this.updated_rooms.add(callback);
     }
 
@@ -166,7 +166,7 @@ export class Floorplan {
       return this.rooms;
     }
 
-    public overlappedCorner(x: number, y: number, tolerance?: number): Corner {
+    public overlappedCorner(x: number, y: number, tolerance?: number): Corner | null {
       tolerance = tolerance || defaultFloorPlanTolerance;
       for (var i = 0; i < this.corners.length; i++) {
         if (this.corners[i].distanceFrom(x, y) < tolerance) {
@@ -176,7 +176,7 @@ export class Floorplan {
       return null;
     }
 
-    public overlappedWall(x: number, y: number, tolerance?: number): Wall {
+    public overlappedWall(x: number, y: number, tolerance?: number): Wall | null {
       tolerance = tolerance || defaultFloorPlanTolerance;
       for (var i = 0; i < this.walls.length; i++) {
         if (this.walls[i].distanceFrom(x, y) < tolerance) {
@@ -311,16 +311,16 @@ export class Floorplan {
     /** 
      * Returns the center of the floorplan in the y plane
      */
-    public getCenter() {
+    public getCenter(): THREE.Vector3 {
       return this.getDimensions(true);
     }
 
-    public getSize() {
+    public getSize(): THREE.Vector3 {
       return this.getDimensions(false);
     }
 
-    public getDimensions(center) {
-      center = center || false; // otherwise, get size
+    public getDimensions(center: boolean): THREE.Vector3 {
+      var centerFlag = center || false; // otherwise, get size
 
       var xMin = Infinity;
       var xMax = -Infinity;
@@ -332,11 +332,11 @@ export class Floorplan {
         if (corner.y < zMin) zMin = corner.y;
         if (corner.y > zMax) zMax = corner.y;
       });
-      var ret;
+      var ret: THREE.Vector3;
       if (xMin == Infinity || xMax == -Infinity || zMin == Infinity || zMax == -Infinity) {
         ret = new THREE.Vector3();
       } else {
-        if (center) {
+        if (centerFlag) {
           // center
           ret = new THREE.Vector3((xMin + xMax) * 0.5, 0, (zMin + zMax) * 0.5);
         } else {

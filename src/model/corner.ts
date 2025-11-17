@@ -18,13 +18,13 @@ export class Corner {
     private wallEnds: Wall[] = [];
 
     /** Callbacks to be fired on movement. */
-    private moved_callbacks = new EventEmitter();
+    private moved_callbacks = new EventEmitter<number>();
 
     /** Callbacks to be fired on removal. */
-    private deleted_callbacks = new EventEmitter();
+    private deleted_callbacks = new EventEmitter<Corner>();
 
     /** Callbacks to be fired in case of action. */
-    private action_callbacks = new EventEmitter();
+    private action_callbacks = new EventEmitter<unknown>();
 
     /** Constructs a corner.
      * @param floorplan The associated floorplan.
@@ -39,21 +39,21 @@ export class Corner {
     /** Add function to moved callbacks.
      * @param func The function to be added.
     */
-    public fireOnMove(func) {
+    public fireOnMove(func: (...coords: number[]) => void): void {
       this.moved_callbacks.add(func);
     }
 
     /** Add function to deleted callbacks.
      * @param func The function to be added.
      */
-    public fireOnDelete(func) {
+    public fireOnDelete(func: (corner: Corner) => void): void {
       this.deleted_callbacks.add(func);
     }
 
     /** Add function to action callbacks.
      * @param func The function to be added.
      */
-    public fireOnAction(func) {
+    public fireOnAction(func: (action: unknown) => void): void {
       this.action_callbacks.add(func);
     }
 
@@ -102,21 +102,21 @@ export class Corner {
      * @param dx The delta x.
      * @param dy The delta y.
      */
-    public relativeMove(dx: number, dy: number) {
+    public relativeMove(dx: number, dy: number): void {
       this.move(this.x + dx, this.y + dy);
     }
 
-    private fireAction(action) {
+    private fireAction(action: unknown): void {
       this.action_callbacks.fire(action)
     }
 
     /** Remove callback. Fires the delete callbacks. */
-    public remove() {
+    public remove(): void {
       this.deleted_callbacks.fire(this);
     }
 
     /** Removes all walls. */
-    private removeAll() {
+    public removeAll(): void {
       for (var i = 0; i < this.wallStarts.length; i++) {
         this.wallStarts[i].remove();
       }
@@ -130,7 +130,7 @@ export class Corner {
      * @param newX The new x position.
      * @param newY The new y position.
      */
-    private move(newX: number, newY: number) {
+    public move(newX: number, newY: number): void {
       this.x = newX;
       this.y = newY;
       this.mergeWithIntersected();
@@ -231,7 +231,7 @@ export class Corner {
      * @param corner A corner.
      * @return The associated wall or null.
      */
-    public wallTo(corner: Corner): Wall {
+    public wallTo(corner: Corner): Wall | null {
       for (var i = 0; i < this.wallStarts.length; i++) {
         if (this.wallStarts[i].getEnd() === corner) {
           return this.wallStarts[i];
@@ -244,7 +244,7 @@ export class Corner {
      * @param corner A corner.
      * @return The associated wall or null.
      */
-    public wallFrom(corner: Corner): Wall {
+    public wallFrom(corner: Corner): Wall | null {
       for (var i = 0; i < this.wallEnds.length; i++) {
         if (this.wallEnds[i].getStart() === corner) {
           return this.wallEnds[i];
@@ -257,7 +257,7 @@ export class Corner {
      * @param corner A corner.
      * @return The associated wall or null.
      */
-    public wallToOrFrom(corner: Corner): Wall {
+    public wallToOrFrom(corner: Corner): Wall | null {
       return this.wallTo(corner) || this.wallFrom(corner);
     }
 
