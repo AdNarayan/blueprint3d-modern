@@ -8,7 +8,7 @@ import { Metadata } from './metadata';
  * A Floor Item is an entity to be placed related to a floor.
  */
 export abstract class FloorItem extends Item {
-  constructor(model: Model, metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
+  constructor(model: Model, metadata: Metadata, geometry: THREE.BufferGeometry, material: THREE.Material | THREE.Material[], position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
       super(model, metadata, geometry, material, position, rotation, scale);
     };
 
@@ -18,7 +18,7 @@ export abstract class FloorItem extends Item {
         var center = this.model.floorplan.getCenter();
         this.position.x = center.x;
         this.position.z = center.z;
-        this.position.y = 0.5 * (this.geometry.boundingBox.max.y - this.geometry.boundingBox.min.y);
+        this.position.y = 0.5 * (this.geometry.boundingBox!.max.y - this.geometry.boundingBox!.min.y);
       }
     };
 

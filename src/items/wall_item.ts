@@ -42,7 +42,7 @@ export abstract class WallItem extends Item {
     /** */
     protected backVisible = false;
 
-    constructor(model: Model, metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
+    constructor(model: Model, metadata: Metadata, geometry: THREE.BufferGeometry, material: THREE.Material | THREE.Material[], position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
       super(model, metadata, geometry, material, position, rotation, scale);
 
       this.allowRotate = false;
@@ -99,15 +99,15 @@ export abstract class WallItem extends Item {
 
     /** */
     private updateSize() {
-      this.wallOffsetScalar = (this.geometry.boundingBox.max.z - this.geometry.boundingBox.min.z) * this.scale.z / 2.0;
-      this.sizeX = (this.geometry.boundingBox.max.x - this.geometry.boundingBox.min.x) * this.scale.x;
-      this.sizeY = (this.geometry.boundingBox.max.y - this.geometry.boundingBox.min.y) * this.scale.y;
+      this.wallOffsetScalar = (this.geometry.boundingBox!.max.z - this.geometry.boundingBox!.min.z) * this.scale.z / 2.0;
+      this.sizeX = (this.geometry.boundingBox!.max.x - this.geometry.boundingBox!.min.x) * this.scale.x;
+      this.sizeY = (this.geometry.boundingBox!.max.y - this.geometry.boundingBox!.min.y) * this.scale.y;
     }
 
     /** */
     public resized() {
       if (this.boundToFloor) {
-        this.position.y = 0.5 * (this.geometry.boundingBox.max.y - this.geometry.boundingBox.min.y) * this.scale.y + 0.01;
+        this.position.y = 0.5 * (this.geometry.boundingBox!.max.y - this.geometry.boundingBox!.min.y) * this.scale.y + 0.01;
       }
 
       this.updateSize();
@@ -165,9 +165,15 @@ export abstract class WallItem extends Item {
 
       // find angle between wall normals
       var normal2 = new THREE.Vector2();
-      var normal3 = wallEdge.plane.geometry.faces[0].normal;
-      normal2.x = normal3.x;
-      normal2.y = normal3.z;
+      // Note: BufferGeometry doesn't have faces, compute normal from wall edge instead
+      var start = wallEdge.interiorStart();
+      var end = wallEdge.interiorEnd();
+      var dx = end.x - start.x;
+      var dy = end.y - start.y;
+      // Normal is perpendicular to the wall edge
+      normal2.x = -dy;
+      normal2.y = dx;
+      normal2.normalize();
 
       var angle = Utils.angle(
         this.refVec.x, this.refVec.y,
@@ -203,7 +209,7 @@ export abstract class WallItem extends Item {
       }
 
       if (this.boundToFloor) {
-        vec3.y = 0.5 * (this.geometry.boundingBox.max.y - this.geometry.boundingBox.min.y) * this.scale.y + 0.01;
+        vec3.y = 0.5 * (this.geometry.boundingBox!.max.y - this.geometry.boundingBox!.min.y) * this.scale.y + 0.01;
       } else {
         if (vec3.y < this.sizeY / 2.0 + tolerance) {
           vec3.y = this.sizeY / 2.0 + tolerance;

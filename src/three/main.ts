@@ -64,18 +64,15 @@ export var Main = function (model, element, canvasElement, opts) {
     this.nothingClicked = new EventEmitter();
 
     function init() {
-      THREE.ImageUtils.crossOrigin = "";
-
       domElement = scope.element // Container
       camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
       renderer = new THREE.WebGLRenderer({
         antialias: true,
         preserveDrawingBuffer: true // required to support .toDataURL()
       });
-      renderer.autoClear = false,
-        renderer.shadowMapEnabled = true;
-      renderer.shadowMapSoft = true;
-      renderer.shadowMapType = THREE.PCFSoftShadowMap;
+      renderer.autoClear = false;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
       var skybox = new Skybox(scene);
 

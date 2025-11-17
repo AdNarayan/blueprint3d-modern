@@ -89,12 +89,14 @@ export var HUD = function (three) {
     }
 
     function makeLineGeometry(item) {
-      var geometry = new THREE.Geometry();
+      var geometry = new THREE.BufferGeometry();
 
-      geometry.vertices.push(
-        new THREE.Vector3(0, 0, 0),
-        rotateVector(item)
-      );
+      var positions = new Float32Array([
+        0, 0, 0,
+        rotateVector(item).x, rotateVector(item).y, rotateVector(item).z
+      ]);
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
       return geometry;
     }
@@ -139,8 +141,7 @@ export var HUD = function (three) {
       var object = new THREE.Object3D();
       var line = new THREE.Line(
         makeLineGeometry(item),
-        makeLineMaterial(scope.rotating),
-        THREE.LinePieces);
+        makeLineMaterial(scope.rotating));
 
       var cone = makeCone(item);
       var sphere = makeSphere(item);

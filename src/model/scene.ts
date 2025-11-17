@@ -20,7 +20,7 @@ export class Scene {
     public needsUpdate = false;
 
     /** The Json loader. */
-    private loader: THREE.JSONLoader;
+    private loader: any;
 
     /** */
     private itemLoadingCallbacks = new EventEmitter();
@@ -40,8 +40,12 @@ export class Scene {
       this.scene = new THREE.Scene();
 
       // init item loader
-      this.loader = new THREE.JSONLoader();
-      this.loader.crossOrigin = "";
+      // Note: JSONLoader has been removed in r127+
+      // For now, we'll use ObjectLoader as a replacement
+      this.loader = new THREE.ObjectLoader();
+      if (this.loader.crossOrigin !== undefined) {
+        this.loader.crossOrigin = "";
+      }
     }
 
     /** Adds a non-item, basically a mesh, to the scene.
@@ -119,11 +123,11 @@ export class Scene {
     public addItem(itemType: number, fileName: string, metadata, position: THREE.Vector3, rotation: number, scale: THREE.Vector3, fixed: boolean) {
       itemType = itemType || 1;
       var scope = this;
-      var loaderCallback = function (geometry: THREE.Geometry, materials: THREE.Material[]) {
+      var loaderCallback = function (geometry: THREE.BufferGeometry, materials: THREE.Material[]) {
         var item = new (Factory.getClass(itemType))(
           scope.model,
           metadata, geometry,
-          new THREE.MeshFaceMaterial(materials),
+          materials,
           position, rotation, scale
         );
         item.fixed = fixed || false;

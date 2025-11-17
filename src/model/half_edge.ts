@@ -106,12 +106,19 @@ export class HalfEdge {
       var v4 = v1.clone();
       v4.y = this.wall.height;
 
-      var geometry = new THREE.Geometry();
-      geometry.vertices = [v1, v2, v3, v4];
+      var geometry = new THREE.BufferGeometry();
 
-      geometry.faces.push(new THREE.Face3(0, 1, 2));
-      geometry.faces.push(new THREE.Face3(0, 2, 3));
-      geometry.computeFaceNormals();
+      var positions = new Float32Array([
+        v1.x, v1.y, v1.z,
+        v2.x, v2.y, v2.z,
+        v3.x, v3.y, v3.z,
+        v1.x, v1.y, v1.z,
+        v3.x, v3.y, v3.z,
+        v4.x, v4.y, v4.z
+      ]);
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.computeVertexNormals();
       geometry.computeBoundingBox();
 
       this.plane = new THREE.Mesh(geometry,

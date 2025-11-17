@@ -64,7 +64,7 @@ export abstract class Item extends THREE.Mesh {
      * @param rotation TODO
      * @param scale TODO
      */
-    constructor(protected model: Model, public metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
+    constructor(protected model: Model, public metadata: Metadata, geometry: THREE.BufferGeometry, material: THREE.Material | THREE.Material[], position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
       super();
 
       this.scene = this.model.scene;
@@ -90,10 +90,10 @@ export abstract class Item extends THREE.Mesh {
 
       // center in its boundingbox
       this.geometry.computeBoundingBox();
-      this.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(
-        - 0.5 * (this.geometry.boundingBox.max.x + this.geometry.boundingBox.min.x),
-        - 0.5 * (this.geometry.boundingBox.max.y + this.geometry.boundingBox.min.y),
-        - 0.5 * (this.geometry.boundingBox.max.z + this.geometry.boundingBox.min.z)
+      this.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+        - 0.5 * (this.geometry.boundingBox!.max.x + this.geometry.boundingBox!.min.x),
+        - 0.5 * (this.geometry.boundingBox!.max.y + this.geometry.boundingBox!.min.y),
+        - 0.5 * (this.geometry.boundingBox!.max.z + this.geometry.boundingBox!.min.z)
       ));
       this.geometry.computeBoundingBox();
       this.halfSize = this.objectHalfSize();
@@ -172,9 +172,11 @@ export abstract class Item extends THREE.Mesh {
       var on = this.hover || this.selected;
       this.highlighted = on;
       var hex = on ? this.emissiveColor : 0x000000;
-      (<THREE.MeshFaceMaterial>this.material).materials.forEach((material) => {
-        // TODO_Ekki emissive doesn't exist anymore?
-        (<any>material).emissive.setHex(hex);
+      const materials = Array.isArray(this.material) ? this.material : [this.material];
+      materials.forEach((material) => {
+        if ('emissive' in material && material.emissive) {
+          (material as any).emissive.setHex(hex);
+        }
       });
     }
 
@@ -347,7 +349,7 @@ export abstract class Item extends THREE.Mesh {
         depthTest: !ignoreDepth
       });
 
-      var glow = new THREE.Mesh(<THREE.Geometry>this.geometry.clone(), glowMaterial);
+      var glow = new THREE.Mesh(this.geometry.clone(), glowMaterial);
       glow.position.copy(this.position);
       glow.rotation.copy(this.rotation);
       glow.scale.copy(this.scale);

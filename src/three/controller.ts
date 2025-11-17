@@ -372,7 +372,7 @@ export var Controller = function (three, model, camera, element, controls, hud) 
       var raycaster = new THREE.Raycaster(
         camera.position,
         direction);
-      raycaster.linePrecision = linePrecision;
+      raycaster.params.Line.threshold = linePrecision;
       var intersections;
       if (objects instanceof Array) {
         intersections = raycaster.intersectObjects(objects, recursive);
@@ -389,8 +389,11 @@ export var Controller = function (three, model, camera, element, controls, hud) 
       // filter by normals, if true
       if (filterByNormals) {
         intersections = Utils.removeIf(intersections, function (intersection) {
-          var dot = intersection.face.normal.dot(direction);
-          return (dot > 0)
+          if (intersection.face && intersection.face.normal) {
+            var dot = intersection.face.normal.dot(direction);
+            return (dot > 0);
+          }
+          return false;
         });
       }
       return intersections;

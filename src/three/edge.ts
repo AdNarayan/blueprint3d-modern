@@ -13,7 +13,8 @@ export var Edge = function (scene, edge, controls) {
     var basePlanes = []; // always visible
     var texture = null;
 
-    var lightMap = THREE.ImageUtils.loadTexture("rooms/textures/walllightmap.png");
+    var textureLoader = new THREE.TextureLoader();
+    var lightMap = textureLoader.load("rooms/textures/walllightmap.png");
     var fillerColor = 0xdddddd;
     var sideColor = 0xcccccc;
     var baseColor = 0xdddddd;
@@ -112,7 +113,8 @@ export var Edge = function (scene, edge, controls) {
       var stretch = textureData.stretch;
       var url = textureData.url;
       var scale = textureData.scale;
-      texture = THREE.ImageUtils.loadTexture(url, null, callback);
+      var loader = new THREE.TextureLoader();
+      texture = loader.load(url, callback);
       if (!stretch) {
         var height = wall.height;
         var width = edge.interiorDistance();
@@ -264,12 +266,19 @@ export var Edge = function (scene, edge, controls) {
         toVec3(p1, height)
       ];
 
-      var geometry = new THREE.Geometry();
-      points.forEach((p) => {
-        geometry.vertices.push(p);
-      });
-      geometry.faces.push(new THREE.Face3(0, 1, 2));
-      geometry.faces.push(new THREE.Face3(0, 2, 3));
+      var geometry = new THREE.BufferGeometry();
+
+      var positions = new Float32Array([
+        points[0].x, points[0].y, points[0].z,
+        points[1].x, points[1].y, points[1].z,
+        points[2].x, points[2].y, points[2].z,
+        points[0].x, points[0].y, points[0].z,
+        points[2].x, points[2].y, points[2].z,
+        points[3].x, points[3].y, points[3].z
+      ]);
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.computeVertexNormals();
 
       var fillerMaterial = new THREE.MeshBasicMaterial({
         color: color,

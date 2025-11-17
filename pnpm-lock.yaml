@@ -24,8 +24,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.2
       three:
-        specifier: ^0.69.0
-        version: 0.69.0
+        specifier: ^0.181.0
+        version: 0.181.1
       underscore:
         specifier: ^1.7.0
         version: 1.13.7
@@ -2900,8 +2900,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  three@0.69.0:
-    resolution: {integrity: sha512-ZfErElsYaS1d+Oh7xTlXdjJTsOjojkW3fa2upOYL2OyfwrB8U87MK/x1vgwPwsP+lIBvsvk61h0olgai0ztnYA==}
+  three@0.181.1:
+    resolution: {integrity: sha512-bz9xZUQMw3pJbjKy7roiwXWgAp+oVUa+4k5o0oBAQ+IFJuru1xzvtk63h6k72XZanXS/SgoEhV6927Vgazyq2w==}
 
   through2@0.5.1:
     resolution: {integrity: sha512-zexCrAOTbjkBCXGyozn7hhS3aEaqdrc59mAD2E3dKYzV1vFuEGQ1hEDJN2oQMQFwy4he2zyLqPZV+AlfS8ZWJA==}
@@ -6299,7 +6299,7 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  three@0.69.0: {}
+  three@0.181.1: {}
 
   through2@0.5.1:
     dependencies:
