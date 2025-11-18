@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/blueprint3d/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/blueprint3d-modern/' : '/',
   root: './',
   publicDir: false,  // Disable default public dir handling
   plugins: [

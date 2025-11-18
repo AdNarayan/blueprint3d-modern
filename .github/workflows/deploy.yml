@@ -62,16 +62,22 @@ jobs:
           test -f dist/assets/index-BhZbQyBk.js && echo "✓ index-BhZbQyBk.js exists" || echo "✗ index-BhZbQyBk.js missing"
           test -f dist/assets/index-b9VcpwH0.css && echo "✓ index-b9VcpwH0.css exists" || echo "✗ index-b9VcpwH0.css missing"
 
-      - name: Create tarball for inspection
+      - name: Verify all critical files before upload
         run: |
-          tar -czf dist-debug.tar.gz -C dist .
-          echo "=== Tarball contents ==="
-          tar -tzf dist-debug.tar.gz | head -30
+          echo "=== Critical files check ==="
+          ls -lh dist/index.html
+          ls -lh dist/.nojekyll
+          ls -lh dist/assets/index-BhZbQyBk.js
+          ls -lh dist/assets/index-b9VcpwH0.css
+          echo -e "\n=== Count all files ==="
+          find dist -type f | wc -l
+          echo -e "\n=== First 50 files ==="
+          find dist -type f | head -50
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: dist
 
   deploy:
     environment:
