@@ -208,10 +208,18 @@ export function Blueprint3DApp() {
       blueprint3dRef.current.three.getController().setSelectedObject(null)
 
       if (tab === 'floorplan') {
-        blueprint3dRef.current.floorplanner.reset()
-        setTimeout(() => {
-          blueprint3dRef.current.floorplanner.resizeView()
-        }, 100)
+        // Use requestAnimationFrame to ensure DOM has updated before centering
+        requestAnimationFrame(() => {
+          if (blueprint3dRef.current) {
+            blueprint3dRef.current.floorplanner.reset()
+            // Additional frame to ensure canvas size is correct
+            requestAnimationFrame(() => {
+              if (blueprint3dRef.current) {
+                blueprint3dRef.current.floorplanner.resetOrigin()
+              }
+            })
+          }
+        })
       } else if (tab === 'design') {
         blueprint3dRef.current.model.floorplan.update()
         setTimeout(() => {

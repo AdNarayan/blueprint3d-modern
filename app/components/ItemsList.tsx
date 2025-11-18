@@ -13,7 +13,7 @@ interface ItemsListProps {
 
 export function ItemsList({ onItemSelect }: ItemsListProps) {
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-4 gap-3">
       {ITEMS.map((item, index) => (
         <button
           key={index}

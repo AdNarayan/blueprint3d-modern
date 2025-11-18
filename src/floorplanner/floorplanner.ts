@@ -274,21 +274,21 @@ export class Floorplanner {
     //scope.setMode(scope.modes.MOVE);
   }
 
-  /** */
-  private reset(): void {
+  /** Resets the view - centers and resizes the floorplan */
+  public reset(): void {
     this.resizeView()
     this.setMode(floorplannerModes.MOVE)
     this.resetOrigin()
     this.view.draw()
   }
 
-  /** */
-  private resizeView(): void {
+  /** Resizes the view to fit the container */
+  public resizeView(): void {
     this.view.handleWindowResize()
   }
 
-  /** */
-  private setMode(mode: FloorplannerMode): void {
+  /** Sets the interaction mode */
+  public setMode(mode: FloorplannerMode): void {
     this.lastNode = null
     this.mode = mode
     this.modeResetCallbacks.forEach((callback) => callback(mode))
@@ -296,7 +296,7 @@ export class Floorplanner {
   }
 
   /** Sets the origin so that floorplan is centered */
-  private resetOrigin(): void {
+  public resetOrigin(): void {
     const centerX = this.canvasElement.clientWidth / 2.0
     const centerY = this.canvasElement.clientHeight / 2.0
     const centerFloorplan = this.floorplan.getCenter()

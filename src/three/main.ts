@@ -83,7 +83,7 @@ export class Main {
     })
     this.renderer.autoClear = false
     this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    this.renderer.shadowMap.type = THREE.PCFShadowMap // Optimized: PCFShadowMap is faster than PCFSoftShadowMap
     // Fix color space for proper color saturation (matching legacy behavior)
     this.renderer.outputColorSpace = THREE.SRGBColorSpace
 
@@ -202,10 +202,7 @@ export class Main {
   }
 
   private animate(): void {
-    const delay = 50
-    setTimeout(() => {
-      requestAnimationFrame(this.animate.bind(this))
-    }, delay)
+    requestAnimationFrame(this.animate.bind(this))
     this.render()
   }
 
