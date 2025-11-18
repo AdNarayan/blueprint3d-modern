@@ -44,17 +44,23 @@ jobs:
         run: |
           mv dist/example/index.html dist/index.html
           rm -rf dist/example
+          touch dist/.nojekyll
 
       - name: List build output
         run: |
           echo "=== Dist directory structure ==="
           ls -la dist/
           echo -e "\n=== Assets directory ==="
-          ls -la dist/assets/ | head -15
+          ls -la dist/assets/
           echo -e "\n=== Check if index.html exists ==="
           test -f dist/index.html && echo "✓ index.html exists" || echo "✗ index.html missing"
+          echo -e "\n=== Check .nojekyll exists ==="
+          test -f dist/.nojekyll && echo "✓ .nojekyll exists" || echo "✗ .nojekyll missing"
           echo -e "\n=== Check index.html content ==="
           grep -o 'assets/[^"]*\.js' dist/index.html || echo "No assets references found"
+          echo -e "\n=== Verify specific asset files ==="
+          test -f dist/assets/index-BhZbQyBk.js && echo "✓ index-BhZbQyBk.js exists" || echo "✗ index-BhZbQyBk.js missing"
+          test -f dist/assets/index-b9VcpwH0.css && echo "✓ index-b9VcpwH0.css exists" || echo "✗ index-b9VcpwH0.css missing"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
