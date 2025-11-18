@@ -1,6 +1,10 @@
 {
   "permissions": {
-    "allow": ["mcp__ide__getDiagnostics", "Bash(npx tsc:*)"],
+    "allow": [
+      "mcp__ide__getDiagnostics",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm add:*)"
+    ],
     "deny": [],
     "ask": []
   }
