@@ -34,11 +34,12 @@ export class Floor {
     floorTexture.wrapS = THREE.RepeatWrapping;
     floorTexture.wrapT = THREE.RepeatWrapping;
     floorTexture.repeat.set(1, 1);
+    floorTexture.colorSpace = THREE.SRGBColorSpace;
     const floorMaterialTop = new THREE.MeshPhongMaterial({
       map: floorTexture,
       side: THREE.DoubleSide,
       // ambient: 0xffffff, TODO_Ekki
-      color: 0xcccccc,
+      color: 0xffffff, // Changed from 0xcccccc to 0xffffff for brighter floor
       specular: 0x0a0a0a
     });
 

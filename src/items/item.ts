@@ -28,8 +28,8 @@ export abstract class Item extends THREE.Mesh {
     /** */
     private error = false;
 
-    /** */
-    private emissiveColor = 0x444444;
+    /** Adjusted for Three.js r181 color space */
+    private emissiveColor = 0x222222;
 
     /** */
     private errorColor = 0xff0000;

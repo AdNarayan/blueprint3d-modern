@@ -80,6 +80,8 @@ export class Main {
     this.renderer.autoClear = false;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // Fix color space for proper color saturation (matching legacy behavior)
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const skybox = new Skybox(this.scene.getScene());
 

@@ -19,7 +19,8 @@ export class Lights {
   }
 
   private init(): void {
-    const light = new THREE.HemisphereLight(0xffffff, 0x888888, 1.1);
+    // Increased intensity for Three.js r181 physically correct rendering
+    const light = new THREE.HemisphereLight(0xffffff, 0x888888, 3.0);
     light.position.set(0, this.height, 0);
     this.scene.add(light);
 

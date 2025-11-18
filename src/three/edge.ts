@@ -14,9 +14,10 @@ export class Edge {
   private texture: THREE.Texture | null = null;
   private readonly textureLoader = new THREE.TextureLoader();
   private readonly lightMap: THREE.Texture;
-  private readonly fillerColor = 0xdddddd;
-  private readonly sideColor = 0xcccccc;
-  private readonly baseColor = 0xdddddd;
+  // Brightened colors for Three.js r181
+  private readonly fillerColor = 0xffffff;
+  private readonly sideColor = 0xeeeeee;
+  private readonly baseColor = 0xffffff;
 
   public visible = false;
 
@@ -27,6 +28,7 @@ export class Edge {
     this.wall = edge.wall;
     this.front = edge.front;
     this.lightMap = this.textureLoader.load("rooms/textures/walllightmap.png");
+    this.lightMap.colorSpace = THREE.SRGBColorSpace;
     this.init();
   }
 
@@ -124,6 +126,7 @@ export class Edge {
     const scale = textureData.scale;
     const loader = new THREE.TextureLoader();
     this.texture = loader.load(url, cb);
+    this.texture.colorSpace = THREE.SRGBColorSpace;
     if (!stretch) {
       const height = this.wall.height;
       const width = this.edge.interiorDistance();
@@ -142,11 +145,13 @@ export class Edge {
       side: THREE.FrontSide,
       map: this.texture,
       // lightMap: this.lightMap TODO_Ekki
+      toneMapped: false, // Bypass tone mapping for brighter walls
     });
 
     const fillerMaterial = new THREE.MeshBasicMaterial({
       color: this.fillerColor,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      toneMapped: false,
     });
 
     // exterior plane
@@ -297,7 +302,8 @@ export class Edge {
 
     const fillerMaterial = new THREE.MeshBasicMaterial({
       color: color,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      toneMapped: false,
     });
 
     const filler = new THREE.Mesh(geometry, fillerMaterial);
@@ -319,7 +325,8 @@ export class Edge {
 
     const fillerMaterial = new THREE.MeshBasicMaterial({
       color: color,
-      side: side
+      side: side,
+      toneMapped: false,
     });
 
     const shape = new THREE.Shape(points);
