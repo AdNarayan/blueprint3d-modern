@@ -2,6 +2,8 @@
 
 A modernized 3D interior design application built on Three.js that allows users to create floor plans and design interior spaces.
 
+**[🚀 Live Demo](https://linncharm.github.io/blueprint3d-modern/)**
+
 This project is a comprehensive modernization of [furnishup/blueprint3d](https://github.com/furnishup/blueprint3d), originally created 9 years ago.
 
 ## Features
@@ -11,8 +13,22 @@ This project is a comprehensive modernization of [furnishup/blueprint3d](https:/
 - **Item Placement**: Add and arrange furniture and decorative items
 - **Interactive Design**: Modify layouts and items in both 2D and 3D views
 
-![floorplan](https://s3.amazonaws.com/furnishup/floorplan.png)
-![3d_design](https://s3.amazonaws.com/furnishup/design.png)
+## Screenshots
+
+<p align="center">
+  <img src="docs/1.png" alt="Floor Plan Editor" width="100%">
+  <br><em>2D Floor Plan Editor</em>
+</p>
+
+<p align="center">
+  <img src="docs/2.png" alt="3D Design View" width="100%">
+  <br><em>3D Design View</em>
+</p>
+
+<p align="center">
+  <img src="docs/3.png" alt="Item Selection" width="100%">
+  <br><em>Item Selection and Placement</em>
+</p>
 
 ## Modernization Updates
 
@@ -102,7 +118,7 @@ This project is configured to automatically deploy to GitHub Pages when you push
 3. Under **Build and deployment**, select:
    - **Source**: GitHub Actions
 4. Push your changes to the `main` branch
-5. The site will be available at: `https://yourusername.github.io/blueprint3d/`
+5. The site will be available at: `https://yourusername.github.io/repository-name/`
 
 The GitHub Actions workflow (`.github/workflows/deploy.yml`) will automatically:
 - Install dependencies with pnpm
