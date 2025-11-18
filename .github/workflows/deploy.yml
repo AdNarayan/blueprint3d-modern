@@ -46,7 +46,15 @@ jobs:
           rm -rf dist/example
 
       - name: List build output
-        run: ls -la dist
+        run: |
+          echo "=== Dist directory structure ==="
+          ls -la dist/
+          echo -e "\n=== Assets directory ==="
+          ls -la dist/assets/ | head -15
+          echo -e "\n=== Check if index.html exists ==="
+          test -f dist/index.html && echo "✓ index.html exists" || echo "✗ index.html missing"
+          echo -e "\n=== Check index.html content ==="
+          grep -o 'assets/[^"]*\.js' dist/index.html || echo "No assets references found"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
