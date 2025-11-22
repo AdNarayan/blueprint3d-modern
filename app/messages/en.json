@@ -124,5 +124,16 @@
       "centimeters": "centimeters",
       "millimeters": "millimeters"
     }
+  },
+  "saveDialog": {
+    "title": "Save Floorplan",
+    "description": "Enter a name for your floorplan. You can find it later in 'My Floorplans'.",
+    "nameLabel": "Floorplan Name",
+    "namePlaceholder": "e.g., Living Room Design",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saveSuccess": "Floorplan saved successfully!",
+    "saveError": "Failed to save floorplan. Please try again.",
+    "quotaError": "Storage is full. Please delete some old floorplans to make space."
   }
 }

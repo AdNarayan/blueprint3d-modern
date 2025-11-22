@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { Sidebar } from './Sidebar'
 import { ContextMenu } from './ContextMenu'
 import { CameraControls } from './CameraControls'
@@ -11,6 +12,7 @@ import { TextureSelector } from './TextureSelector'
 import { Settings } from './Settings'
 import { ViewToggle } from './ViewToggle'
 import { MyFloorplans } from './MyFloorplans'
+import { SaveFloorplanDialog } from './SaveFloorplanDialog'
 import { getStorageService } from '@/services/storage'
 import DefaultFloorplan from '@/public/constants/default.json'
 import ExampleFloorplan from '@/public/constants/example.json'
@@ -23,6 +25,7 @@ import { floorplannerModes } from '@src/floorplanner/floorplanner_view'
 import { Configuration, configDimUnit } from '@src/core/configuration'
 
 export function Blueprint3DApp() {
+  const t = useTranslations('saveDialog')
   const viewerRef = useRef<HTMLDivElement>(null)
   const floorplannerCanvasRef = useRef<HTMLCanvasElement>(null)
   const blueprint3dRef = useRef<any>(null)
@@ -35,6 +38,7 @@ export function Blueprint3DApp() {
   const [itemsLoading, setItemsLoading] = useState(0)
   const [viewMode, setViewMode] = useState<'2d' | '3d'>('3d')
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false)
 
   // Initialize Blueprint3d
   useEffect(() => {
@@ -289,12 +293,14 @@ export function Blueprint3DApp() {
     }
   }, [])
 
-  // Save to browser storage
-  const handleSave = useCallback(async () => {
-    if (!blueprint3dRef.current) return
+  // Open save dialog
+  const handleSave = useCallback(() => {
+    setSaveDialogOpen(true)
+  }, [])
 
-    const name = prompt('Enter a name for your floorplan:', `Floorplan ${new Date().toLocaleDateString()}`)
-    if (!name) return
+  // Save to browser storage
+  const handleSaveFloorplan = useCallback(async (name: string) => {
+    if (!blueprint3dRef.current) return
 
     try {
       const data = blueprint3dRef.current.model.exportSerialized()
@@ -305,16 +311,16 @@ export function Blueprint3DApp() {
       const storage = getStorageService()
       await storage.saveFloorplan(name, data, thumbnail)
 
-      alert('Floorplan saved successfully! You can find it in "My Floorplans".')
+      alert(t('saveSuccess'))
     } catch (error) {
       console.error('Failed to save floorplan:', error)
       if (error instanceof Error && error.message === 'QUOTA_EXCEEDED') {
-        alert('Storage is full. Please delete some old floorplans to make space.')
+        alert(t('quotaError'))
       } else {
-        alert('Failed to save floorplan. Please try again.')
+        alert(t('saveError'))
       }
     }
-  }, [generateTopDownThumbnail])
+  }, [generateTopDownThumbnail, t])
 
   // Download as file
   const handleDownload = useCallback(() => {
@@ -558,6 +564,14 @@ export function Blueprint3DApp() {
           )}
         </div>
       </div>
+
+      {/* Save Floorplan Dialog */}
+      <SaveFloorplanDialog
+        open={saveDialogOpen}
+        onOpenChange={setSaveDialogOpen}
+        onSave={handleSaveFloorplan}
+        defaultName={`Floorplan ${new Date().toLocaleDateString()}`}
+      />
     </div>
   )
 }

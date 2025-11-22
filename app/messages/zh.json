@@ -124,5 +124,16 @@
       "centimeters": "厘米",
       "millimeters": "毫米"
     }
+  },
+  "saveDialog": {
+    "title": "保存平面图",
+    "description": "为您的平面图输入一个名称。您可以稍后在\"我的平面图\"中找到它。",
+    "nameLabel": "平面图名称",
+    "namePlaceholder": "例如: 客厅设计",
+    "cancel": "取消",
+    "save": "保存",
+    "saveSuccess": "平面图保存成功!",
+    "saveError": "保存平面图失败,请重试。",
+    "quotaError": "存储空间已满,请删除一些旧的平面图以腾出空间。"
   }
 }
