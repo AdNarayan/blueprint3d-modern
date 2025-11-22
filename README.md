@@ -58,12 +58,19 @@ This project includes two demo applications:
   - **Styling**: Tailwind CSS 4 with PostCSS
   - **Build Tool**: Turbopack (Next.js built-in)
   - **3D Engine**: Three.js 0.181
-  - **UI Components**: Custom components with Lucide icons
+  - **UI Components**: Shadcn/ui with Radix UI primitives
+  - **Icons**: Lucide React
+  - **Internationalization**: next-intl with English and Chinese support
+  - **Storage**: IndexedDB for local floorplan persistence
   - **TypeScript**: Full type safety
 - **Features**:
   - Modern React architecture with hooks
-  - Component-based UI (Sidebar, Controls, Context Menu)
+  - Component-based UI (Sidebar, Controls, Context Menu, Dialogs)
   - Responsive design with Tailwind CSS
+  - Multi-language support (English/Chinese)
+  - Local floorplan storage with IndexedDB
+  - Top-down thumbnail generation for saved floorplans
+  - Dimension unit switching (Imperial/Metric)
   - Server-side rendering ready
   - Hot module replacement with Turbopack
 - **Use Case**: Production-ready application template
@@ -152,11 +159,13 @@ blueprint3d/
 │   └── textures/     # Texture assets
 ├── app/              # Next.js demo application
 │   ├── app/          # Next.js app directory
+│   │   ├── [locale]/     # Locale-based routing
+│   │   │   ├── layout.tsx    # Locale layout
+│   │   │   └── page.tsx      # Home page
 │   │   ├── layout.tsx    # Root layout
-│   │   ├── page.tsx      # Home page
 │   │   └── globals.css   # Global styles
 │   ├── components/   # React components
-│   │   ├── ui/           # UI components (Button, Input)
+│   │   ├── ui/           # UI components (Button, Input, Dialog, Tabs)
 │   │   ├── Blueprint3DApp.tsx      # Main app component
 │   │   ├── Sidebar.tsx             # Sidebar with controls
 │   │   ├── MainControls.tsx        # Main toolbar
@@ -164,12 +173,25 @@ blueprint3d/
 │   │   ├── CameraControls.tsx      # 3D view controls
 │   │   ├── ItemsList.tsx           # Furniture items list
 │   │   ├── TextureSelector.tsx     # Wall/floor texture picker
-│   │   └── ContextMenu.tsx         # Right-click menu
+│   │   ├── ContextMenu.tsx         # Item context menu
+│   │   ├── Settings.tsx            # Settings panel
+│   │   ├── MyFloorplans.tsx        # Saved floorplans list
+│   │   ├── SaveFloorplanDialog.tsx # Save dialog
+│   │   └── ViewToggle.tsx          # 2D/3D view toggle
+│   ├── i18n/         # Internationalization
+│   │   ├── routing.ts    # i18n routing config
+│   │   └── request.ts    # i18n request handler
+│   ├── messages/     # Translation files
+│   │   ├── en.json       # English translations
+│   │   └── zh.json       # Chinese translations
+│   ├── services/     # Service layer
+│   │   └── storage.ts    # IndexedDB storage service
 │   ├── lib/          # Utilities
 │   ├── public/       # Static assets
 │   │   ├── models/       # 3D models and thumbnails
 │   │   ├── rooms/        # Room textures
 │   │   └── constants/    # Configuration files
+│   ├── middleware.ts # i18n middleware
 │   └── next.config.ts    # Next.js configuration
 ├── dist/             # Vite production build output
 └── legacy/           # Original blueprint3d code
@@ -177,15 +199,30 @@ blueprint3d/
 
 ## TODO
 
-- [ ] **Support GLB/GLTF Import**  
-       - Allow users to import their own 3D models into the scene  
+- [ ] **Support GLB/GLTF Import**
+       - Allow users to import their own 3D models into the scene
        - Support scaling, rotation, and material adjustments
 
-- [ ] **Unit Conversion & Display**  
-       - Allow switching between units (meters, centimeters, feet, inches)
+- [x] **Unit Conversion & Display**
+       - ✅ Implemented dimension unit switching (Imperial ft/in, Metric m/cm/mm)
+       - ✅ Settings panel with unit selector
+       - ✅ Global unit conversion throughout the app
 
-- [ ] **Local History / Undo-Redo**  
-       - Save the current floor plan and 3D scene locally
+- [x] **Local Storage & Floorplan Management**
+       - ✅ Save and load floorplans with IndexedDB
+       - ✅ Auto-generated top-down thumbnails for saved floorplans
+       - ✅ My Floorplans panel with preview, load, download, and delete
+
+- [x] **Internationalization (i18n)**
+       - ✅ Multi-language support with next-intl
+       - ✅ English and Chinese translations
+       - ✅ Language switcher in settings
+       - ✅ Locale-based routing
+
+- [ ] **Undo/Redo System for 3D Mode**
+       - Implement history tracking for 3D scene modifications
+       - Support undo/redo for item placement, movement, rotation, and deletion
+       - Keyboard shortcuts (Ctrl+Z / Ctrl+Y)
 
 ## Development Workflow
 
