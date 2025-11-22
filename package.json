@@ -21,7 +21,7 @@
     "vec2": "^1.6.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.0",
+    "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
@@ -41,7 +41,7 @@
     "grunt-typescript": "^0.8.0",
     "matchdep": "^1.0.1",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.1.17",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vite": "^7.2.2",
