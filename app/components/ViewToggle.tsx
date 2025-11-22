@@ -1,7 +1,5 @@
 'use client'
 
-import { Button } from '@/components/ui/Button'
-
 interface ViewToggleProps {
   viewMode: '2d' | '3d'
   onViewChange: (mode: '2d' | '3d') => void

@@ -19,11 +19,11 @@ export interface Options {
 
 /** Blueprint3D core application. */
 export class Blueprint3d {
-  private model: Model
+  public model: Model
 
-  private three: any // Main;
+  public three: any // Main;
 
-  private floorplanner?: Floorplanner
+  public floorplanner?: Floorplanner
 
   /** Creates an instance.
    * @param options The initialization options.

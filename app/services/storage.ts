@@ -148,7 +148,8 @@ class IndexedDBStorageService implements IStorageService {
   }
 }
 
-// Local Storage Implementation (Phase 1)
+// Local Storage Implementation (Kept for backward compatibility)
+// @ts-expect-error - Keeping for potential fallback
 class LocalStorageService implements IStorageService {
   private readonly STORAGE_KEY = 'blueprint3d_floorplans'
 

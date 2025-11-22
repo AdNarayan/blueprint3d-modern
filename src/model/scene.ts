@@ -23,7 +23,7 @@ export class Scene {
   private loader: JSONLoader
 
   /** */
-  private itemLoadingCallbacks = new EventEmitter<void>()
+  public itemLoadingCallbacks = new EventEmitter<void>()
 
   /** Item */
   public itemLoadedCallbacks = new EventEmitter<Item>()
