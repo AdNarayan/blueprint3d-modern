@@ -1,0 +1,113 @@
+{
+  "sidebar": {
+    "editFloorplan": "Edit Floorplan",
+    "design": "Design",
+    "addItems": "Add Items",
+    "myFloorplans": "My Floorplans",
+    "settings": "Settings",
+    "openSidebar": "Open sidebar",
+    "collapseSidebar": "Collapse sidebar"
+  },
+  "mainControls": {
+    "newPlan": "New Plan",
+    "savePlan": "Save Plan",
+    "downloadPlan": "Download Plan",
+    "loadPlan": "Load Plan"
+  },
+  "floorplanner": {
+    "moveWalls": "Move Walls",
+    "drawWalls": "Draw Walls",
+    "deleteWalls": "Delete Walls",
+    "done": "Done"
+  },
+  "viewToggle": {
+    "3d": "3D",
+    "2d": "2D"
+  },
+  "textureSelector": {
+    "adjustFloor": "Adjust Floor",
+    "adjustWall": "Adjust Wall"
+  },
+  "myFloorplans": {
+    "title": "My Saved Floorplans",
+    "noFloorplans": "No saved floorplans yet",
+    "saveFirst": "Save your first floorplan to see it here",
+    "loading": "Loading...",
+    "loadButton": "Load",
+    "downloadButton": "Download",
+    "deleteButton": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this floorplan?",
+    "lastModified": "Last modified"
+  },
+  "settings": {
+    "title": "Settings",
+    "dimensionUnit": "Dimension Unit",
+    "language": "Language",
+    "languageDescription": "Select your preferred language",
+    "dimensionUnitDescription": "Select the unit system for displaying dimensions in the floorplan, wall labels, and item measurements.",
+    "currentSelection": "Current selection",
+    "appliesTo": "This setting applies globally to:",
+    "applies2dFloorplan": "2D floorplan wall measurements",
+    "applies3dDimensions": "3D item dimensions (width, height, depth)",
+    "appliesAllDimensions": "All dimension displays throughout the application",
+    "active": "Active",
+    "units": {
+      "inch": {
+        "label": "Imperial (ft/in)",
+        "description": "Feet and inches"
+      },
+      "m": {
+        "label": "Metric - Meters (m)",
+        "description": "Meters"
+      },
+      "cm": {
+        "label": "Metric - Centimeters (cm)",
+        "description": "Centimeters"
+      },
+      "mm": {
+        "label": "Metric - Millimeters (mm)",
+        "description": "Millimeters"
+      }
+    },
+    "languages": {
+      "en": "English",
+      "zh": "简体中文"
+    }
+  },
+  "items": {
+    "closedDoor": "Closed Door",
+    "openDoor": "Open Door",
+    "window": "Window",
+    "chair": "Chair",
+    "redChair": "Red Chair",
+    "blueChair": "Blue Chair",
+    "dresserDarkWood": "Dresser - Dark Wood",
+    "dresserWhite": "Dresser - White",
+    "bedsideTableShale": "Bedside table - Shale",
+    "bedsideTableWhite": "Bedside table - White",
+    "wardrobeWhite": "Wardrobe - White",
+    "fullBed": "Full Bed",
+    "bookshelf": "Bookshelf",
+    "mediaConsoleWhite": "Media Console - White",
+    "mediaConsoleBlack": "Media Console - Black",
+    "sectionalOlive": "Sectional - Olive",
+    "sofaGrey": "Sofa - Grey",
+    "woodenTrunk": "Wooden Trunk",
+    "floorLamp": "Floor Lamp",
+    "coffeeTableWood": "Coffee Table - Wood",
+    "sideTable": "Side Table",
+    "diningTable": "Dining Table",
+    "blueRug": "Blue Rug",
+    "nycPoster": "NYC Poster"
+  },
+  "textures": {
+    "floor": {
+      "lightFineWood": "Light Fine Wood"
+    },
+    "wall": {
+      "marbleTiles": "Marble Tiles",
+      "wallmapYellow": "Wallmap Yellow",
+      "lightBrick": "Light Brick"
+    }
+  }
+}

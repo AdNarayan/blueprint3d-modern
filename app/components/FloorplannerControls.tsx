@@ -3,6 +3,7 @@
 import { Move, Pencil, Trash2 } from 'lucide-react'
 import { Button } from './ui/Button'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface FloorplannerControlsProps {
   mode: 'move' | 'draw' | 'delete'
@@ -15,6 +16,8 @@ export function FloorplannerControls({
   onModeChange,
   onDone,
 }: FloorplannerControlsProps) {
+  const t = useTranslations('floorplanner')
+
   return (
     <div className="absolute left-0 top-0 my-5 px-5 w-full">
       <div className="flex items-center justify-between">
@@ -26,7 +29,7 @@ export function FloorplannerControls({
             className={cn('flex items-center gap-2')}
           >
             <Move className="h-4 w-4" />
-            Move Walls
+            {t('moveWalls')}
           </Button>
           <Button
             size="sm"
@@ -35,7 +38,7 @@ export function FloorplannerControls({
             className={cn('flex items-center gap-2')}
           >
             <Pencil className="h-4 w-4" />
-            Draw Walls
+            {t('drawWalls')}
           </Button>
           <Button
             size="sm"
@@ -44,12 +47,12 @@ export function FloorplannerControls({
             className={cn('flex items-center gap-2')}
           >
             <Trash2 className="h-4 w-4" />
-            Delete Walls
+            {t('deleteWalls')}
           </Button>
         </div>
 
         <Button size="sm" variant="primary" onClick={onDone}>
-          Done &raquo;
+          {t('done')} &raquo;
         </Button>
       </div>
     </div>

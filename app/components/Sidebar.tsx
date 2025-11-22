@@ -2,6 +2,7 @@
 
 import { ChevronRight, ChevronLeft, Menu } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface SidebarProps {
   activeTab: 'floorplan' | 'design' | 'items' | 'settings' | 'my-floorplans'
@@ -12,13 +13,14 @@ interface SidebarProps {
 }
 
 export function Sidebar({ activeTab, onTabChange, children, isCollapsed, onToggleCollapse }: SidebarProps) {
+  const t = useTranslations('sidebar')
 
   const tabs = [
-    { id: 'floorplan' as const, label: 'Edit Floorplan' },
-    { id: 'design' as const, label: 'Design' },
-    { id: 'items' as const, label: 'Add Items' },
-    { id: 'my-floorplans' as const, label: 'My Floorplans' },
-    { id: 'settings' as const, label: 'Settings' },
+    { id: 'floorplan' as const, label: t('editFloorplan') },
+    { id: 'design' as const, label: t('design') },
+    { id: 'items' as const, label: t('addItems') },
+    { id: 'my-floorplans' as const, label: t('myFloorplans') },
+    { id: 'settings' as const, label: t('settings') },
   ]
 
   return (
@@ -30,7 +32,7 @@ export function Sidebar({ activeTab, onTabChange, children, isCollapsed, onToggl
           'fixed top-20 left-4 z-50 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 shadow-lg transition-all duration-300',
           isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'
         )}
-        aria-label="Open sidebar"
+        aria-label={t('openSidebar')}
       >
         <Menu className="h-6 w-6" />
       </button>

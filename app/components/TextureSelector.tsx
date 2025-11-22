@@ -1,6 +1,7 @@
 'use client'
 
 import { FLOOR_TEXTURES, WALL_TEXTURES } from '@/lib/constants'
+import { useTranslations } from 'next-intl'
 
 interface TextureSelectorProps {
   type: 'floor' | 'wall' | null
@@ -11,6 +12,8 @@ export function TextureSelector({
   type,
   onTextureSelect,
 }: TextureSelectorProps) {
+  const t = useTranslations('textureSelector')
+
   if (!type) return null
 
   const textures = type === 'floor' ? FLOOR_TEXTURES : WALL_TEXTURES
@@ -20,7 +23,7 @@ export function TextureSelector({
       <div className="border border-gray-200 rounded">
         <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
           <h3 className="font-medium">
-            Adjust {type === 'floor' ? 'Floor' : 'Wall'}
+            {type === 'floor' ? t('adjustFloor') : t('adjustWall')}
           </h3>
         </div>
         <div className="p-4 text-gray-900">

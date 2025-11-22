@@ -1,7 +1,6 @@
 'use client'
 
 import { ITEMS } from '@/lib/constants'
-import Image from 'next/image'
 
 interface ItemsListProps {
   onItemSelect: (item: {

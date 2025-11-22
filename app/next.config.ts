@@ -1,5 +1,8 @@
 import type { NextConfig } from 'next'
 import path from 'path'
+import createNextIntlPlugin from 'next-intl/plugin'
+
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts')
 
 const nextConfig: NextConfig = {
   webpack: (config) => {
@@ -22,4 +25,4 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
 }
 
-export default nextConfig
+export default withNextIntl(nextConfig)

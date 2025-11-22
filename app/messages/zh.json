@@ -1,0 +1,113 @@
+{
+  "sidebar": {
+    "editFloorplan": "编辑平面图",
+    "design": "设计",
+    "addItems": "添加物品",
+    "myFloorplans": "我的平面图",
+    "settings": "设置",
+    "openSidebar": "打开侧边栏",
+    "collapseSidebar": "收起侧边栏"
+  },
+  "mainControls": {
+    "newPlan": "新建方案",
+    "savePlan": "保存方案",
+    "downloadPlan": "下载方案",
+    "loadPlan": "加载方案"
+  },
+  "floorplanner": {
+    "moveWalls": "移动墙壁",
+    "drawWalls": "绘制墙壁",
+    "deleteWalls": "删除墙壁",
+    "done": "完成"
+  },
+  "viewToggle": {
+    "3d": "3D",
+    "2d": "2D"
+  },
+  "textureSelector": {
+    "adjustFloor": "调整地板",
+    "adjustWall": "调整墙壁"
+  },
+  "myFloorplans": {
+    "title": "我的保存方案",
+    "noFloorplans": "还没有保存的方案",
+    "saveFirst": "保存您的第一个方案以在此处查看",
+    "loading": "加载中...",
+    "loadButton": "加载",
+    "downloadButton": "下载",
+    "deleteButton": "删除",
+    "deleteConfirm": "确定要删除此平面图吗?",
+    "lastModified": "最后修改"
+  },
+  "settings": {
+    "title": "设置",
+    "dimensionUnit": "尺寸单位",
+    "language": "语言",
+    "languageDescription": "选择您的首选语言",
+    "dimensionUnitDescription": "选择用于在平面图、墙壁标签和物品测量中显示尺寸的单位系统。",
+    "currentSelection": "当前选择",
+    "appliesTo": "此设置全局应用于:",
+    "applies2dFloorplan": "2D平面图墙壁测量",
+    "applies3dDimensions": "3D物品尺寸(宽度、高度、深度)",
+    "appliesAllDimensions": "整个应用程序中的所有尺寸显示",
+    "active": "已启用",
+    "units": {
+      "inch": {
+        "label": "英制 (英尺/英寸)",
+        "description": "英尺和英寸"
+      },
+      "m": {
+        "label": "公制 - 米 (m)",
+        "description": "米"
+      },
+      "cm": {
+        "label": "公制 - 厘米 (cm)",
+        "description": "厘米"
+      },
+      "mm": {
+        "label": "公制 - 毫米 (mm)",
+        "description": "毫米"
+      }
+    },
+    "languages": {
+      "en": "English",
+      "zh": "简体中文"
+    }
+  },
+  "items": {
+    "closedDoor": "关闭的门",
+    "openDoor": "打开的门",
+    "window": "窗户",
+    "chair": "椅子",
+    "redChair": "红色椅子",
+    "blueChair": "蓝色椅子",
+    "dresserDarkWood": "梳妆台 - 深色木",
+    "dresserWhite": "梳妆台 - 白色",
+    "bedsideTableShale": "床头柜 - 页岩色",
+    "bedsideTableWhite": "床头柜 - 白色",
+    "wardrobeWhite": "衣柜 - 白色",
+    "fullBed": "双人床",
+    "bookshelf": "书架",
+    "mediaConsoleWhite": "媒体柜 - 白色",
+    "mediaConsoleBlack": "媒体柜 - 黑色",
+    "sectionalOlive": "组合沙发 - 橄榄绿",
+    "sofaGrey": "沙发 - 灰色",
+    "woodenTrunk": "木箱",
+    "floorLamp": "落地灯",
+    "coffeeTableWood": "咖啡桌 - 木质",
+    "sideTable": "边桌",
+    "diningTable": "餐桌",
+    "blueRug": "蓝色地毯",
+    "nycPoster": "纽约海报"
+  },
+  "textures": {
+    "floor": {
+      "lightFineWood": "浅色精细木纹"
+    },
+    "wall": {
+      "marbleTiles": "大理石瓷砖",
+      "wallmapYellow": "黄色墙纸",
+      "lightBrick": "浅色砖墙"
+    }
+  }
+}

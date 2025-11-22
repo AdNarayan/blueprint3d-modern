@@ -3,12 +3,15 @@
 import { useEffect, useState } from 'react'
 import { Trash2, Download, FolderOpen } from 'lucide-react'
 import { getStorageService, FloorplanData } from '@/services/storage'
+import { useTranslations, useLocale } from 'next-intl'
 
 interface MyFloorplansProps {
   onLoadFloorplan: (data: string) => void
 }
 
 export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
+  const t = useTranslations('myFloorplans')
+  const locale = useLocale()
   const [floorplans, setFloorplans] = useState<FloorplanData[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -43,7 +46,7 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this floorplan?')) {
+    if (!confirm(t('deleteConfirm'))) {
       return
     }
 
@@ -58,7 +61,7 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp)
-    return date.toLocaleString('en-US', {
+    return date.toLocaleString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -70,7 +73,7 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-gray-500">{t('loading')}</div>
       </div>
     )
   }
@@ -79,9 +82,9 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
     return (
       <div className="flex flex-col items-center justify-center p-8 text-center">
         <FolderOpen className="h-16 w-16 text-gray-300 mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No saved floorplans</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">{t('noFloorplans')}</h3>
         <p className="text-sm text-gray-500">
-          Your saved floorplans will appear here. Use the &quot;Save Plan&quot; button to save your current design.
+          {t('saveFirst')}
         </p>
       </div>
     )
@@ -114,7 +117,7 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
 
           {/* Date */}
           <p className="text-xs text-gray-500 mb-3">
-            Updated {formatDate(floorplan.updatedAt)}
+            {t('lastModified')}: {formatDate(floorplan.updatedAt)}
           </p>
 
           {/* Actions */}
@@ -123,19 +126,19 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
               onClick={() => handleLoad(floorplan)}
               className="flex-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
             >
-              Load
+              {t('loadButton')}
             </button>
             <button
               onClick={() => handleDownload(floorplan)}
               className="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-              title="Download"
+              title={t('downloadButton')}
             >
               <Download className="h-4 w-4" />
             </button>
             <button
               onClick={() => handleDelete(floorplan.id)}
               className="px-3 py-1.5 text-sm bg-white border border-red-300 text-red-600 rounded hover:bg-red-50 transition-colors"
-              title="Delete"
+              title={t('deleteButton')}
             >
               <Trash2 className="h-4 w-4" />
             </button>

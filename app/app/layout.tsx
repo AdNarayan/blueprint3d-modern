@@ -1,19 +1,9 @@
-import type { Metadata } from 'next'
-import './globals.css'
-
-export const metadata: Metadata = {
-  title: 'Blueprint 3D - Next.js',
-  description: 'Blueprint 3D floor planner built with Next.js, TypeScript, and Tailwind CSS',
-}
+import type { ReactNode } from 'react'
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  )
+  return children
 }
