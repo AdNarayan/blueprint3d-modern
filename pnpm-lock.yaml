@@ -8,48 +8,27 @@ importers:
 
   .:
     dependencies:
-      bootstrap:
-        specifier: ^3.3.1
-        version: 3.4.1
-      bootstrap-tour:
-        specifier: ^0.10.1
-        version: 0.10.3
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      inherits:
-        specifier: ^2.0.1
-        version: 2.0.4
       lucide-react:
         specifier: ^0.554.0
         version: 0.554.0(react@19.2.0)
       next:
         specifier: ^16.0.3
         version: 16.0.3(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      polygon:
-        specifier: ^0.1.0
-        version: 0.1.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
-      segseg:
-        specifier: ^0.2.1
-        version: 0.2.2
       tailwind-merge:
         specifier: ^3.4.0
         version: 3.4.0
       three:
         specifier: ^0.181.0
         version: 0.181.1
-      underscore:
-        specifier: ^1.7.0
-        version: 1.13.7
-      vec2:
-        specifier: ^1.6.0
-        version: 1.6.1
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.17
@@ -1587,15 +1566,6 @@ packages:
   bn.js@5.2.2:
     resolution: {integrity: sha512-v2YAxEmKaBLahNwE1mjp4WON6huMNeuDvagFZW+ASCuA/ku0bXR9hSMw0XpiqMoA3+rmnyck/tPRSFQkoC9Cuw==}
 
-  bootstrap-tour@0.10.3:
-    resolution: {integrity: sha512-O9QYZM74EQ8tDwtK+TR0NIfzfTTSQp1iX7TTnWIClFMipmqfp93+C7Oij0+Qsw6TnwXuSXM7CHYyzSd0LhjJmA==}
-    engines: {node: '>= 0.8.0'}
-
-  bootstrap@3.4.1:
-    resolution: {integrity: sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==}
-    engines: {node: '>=6'}
-    deprecated: This version of Bootstrap is no longer supported. Please upgrade to the latest version.
-
   brace-expansion@1.1.12:
     resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
 
@@ -2534,10 +2504,6 @@ packages:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
 
-  jquery@2.2.4:
-    resolution: {integrity: sha512-lBHj60ezci2u1v2FqnZIraShGgEXq35qCzMv4lITyHGppTnA13rwR0MgwyNJh9TnDs3aXUvd1xjAotfraMHX/Q==}
-    deprecated: This version is deprecated. Please upgrade to the latest version or find support at https://www.herodevs.com/support/jquery-nes.
-
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -3008,9 +2974,6 @@ packages:
     resolution: {integrity: sha512-MnUuEycAemtSaeFSjXKW/aroV7akBbY+Sv+RkyqFjgAe73F+MR0TBWKBRDkmfWq/HiFmdavfZ1G7h4SPZXaCSg==}
     engines: {node: '>=0.10.0'}
 
-  polygon@0.1.0:
-    resolution: {integrity: sha512-EfBIb+27Y2i+6jZI1yFgzkWJRUzVf20GeSUVHtcf0E9iAKBDSlNuCFnXf9PDultKYCjA7PHEvBnQulo8cB/xaA==}
-
   posix-character-classes@0.1.1:
     resolution: {integrity: sha512-xTgYBc3fuo7Yt7JbiuFxSYGToMoz8fLoE6TC9Wx1P/u+LfeThMOAqmuyECnlBaaJb+u1m9hHiXUEtwW4OzfUJg==}
     engines: {node: '>=0.10.0'}
@@ -3243,9 +3206,6 @@ packages:
 
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
-
-  segseg@0.2.2:
-    resolution: {integrity: sha512-eEJ61YUpiq60wmp+o2SlmS3swgSc66QLzAlLBBUoMeEld/eekmSM4k+2f5Q2vb4QeDYkO0QFp9XSKycUGjRBYQ==}
 
   semver@5.7.2:
     resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
@@ -3574,9 +3534,6 @@ packages:
   underscore.string@3.3.6:
     resolution: {integrity: sha512-VoC83HWXmCrF6rgkyxS9GHv8W9Q5nhMKho+OadDJGzL2oDYbYEppBaCMH6pFlwLeqj2QS+hhkw2kpXkSdD1JxQ==}
 
-  underscore@1.13.7:
-    resolution: {integrity: sha512-GMXzWtsc57XAtguZgaQViUOzs0KTkk8ojr3/xAxXLITqf/3EMwxC0inyETfDFjH/Krbhuep0HNbbjI9i/q3F3g==}
-
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
@@ -3640,12 +3597,6 @@ packages:
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
-
-  vec2@1.3.4:
-    resolution: {integrity: sha512-1Xz/hZrmSjf2LcCjGO/Abg4Kzjdq9xArSv/9NeyYU7sIkRlKax8sUgGhqV0T/JDZrUW0aEz3+wYIzENejR9HoA==}
-
-  vec2@1.6.1:
-    resolution: {integrity: sha512-6/1i+Z2JSglrBQYCrjogt8f2X3pFXRpFOncMBrUL+T+640+bOBRRTXvZx3HUnaGelioNmfBLUnIIKdqwjO1hHw==}
 
   vite-plugin-static-copy@3.1.4:
     resolution: {integrity: sha512-iCmr4GSw4eSnaB+G8zc2f4dxSuDjbkjwpuBLLGvQYR9IW7rnDzftnUjOH5p4RYR+d4GsiBqXRvzuFhs5bnzVyw==}
@@ -5076,13 +5027,6 @@ snapshots:
 
   bn.js@5.2.2: {}
 
-  bootstrap-tour@0.10.3:
-    dependencies:
-      bootstrap: 3.4.1
-      jquery: 2.2.4
-
-  bootstrap@3.4.1: {}
-
   brace-expansion@1.1.12:
     dependencies:
       balanced-match: 1.0.2
@@ -6265,8 +6209,6 @@ snapshots:
 
   jiti@2.6.1: {}
 
-  jquery@2.2.4: {}
-
   js-tokens@4.0.0: {}
 
   js-yaml@3.14.2:
@@ -6767,11 +6709,6 @@ snapshots:
 
   pinkie@2.0.4: {}
 
-  polygon@0.1.0:
-    dependencies:
-      segseg: 0.2.2
-      vec2: 1.3.4
-
   posix-character-classes@0.1.1: {}
 
   possible-typed-array-names@1.1.0: {}
@@ -7035,8 +6972,6 @@ snapshots:
   safer-buffer@2.1.2: {}
 
   scheduler@0.27.0: {}
-
-  segseg@0.2.2: {}
 
   semver@5.7.2: {}
 
@@ -7416,8 +7351,6 @@ snapshots:
       sprintf-js: 1.1.3
       util-deprecate: 1.0.2
 
-  underscore@1.13.7: {}
-
   undici-types@7.16.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
@@ -7478,10 +7411,6 @@ snapshots:
     dependencies:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
-
-  vec2@1.3.4: {}
-
-  vec2@1.6.1: {}
 
   vite-plugin-static-copy@3.1.4(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.20.6)):
     dependencies:
