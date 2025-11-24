@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { ITEMS } from '@/lib/constants'
 import { useTranslations } from 'next-intl'
 
@@ -23,10 +24,12 @@ export function ItemsList({ onItemSelect }: ItemsListProps) {
           className="border border-gray-200 rounded hover:border-blue-500 transition-colors p-2 flex flex-col items-center gap-2 cursor-pointer bg-white"
         >
           <div className="relative w-full aspect-square">
-            <img
-              src={`/${item.image}`}
+            <Image
+              src={item.image}
               alt={t(item.key)}
-              className="w-full h-full object-contain"
+              fill
+              sizes="(max-width: 768px) 25vw, 10vw"
+              className="object-contain"
             />
           </div>
           <span className="text-xs text-center">{t(item.key)}</span>

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { FLOOR_TEXTURES, WALL_TEXTURES } from '@/lib/constants'
 import { useTranslations } from 'next-intl'
 
@@ -34,12 +35,14 @@ export function TextureSelector({
                 onClick={() =>
                   onTextureSelect(texture.url, texture.stretch, texture.scale)
                 }
-                className="border border-gray-200 rounded hover:border-blue-500 transition-colors overflow-hidden"
+                className="border border-gray-200 rounded hover:border-blue-500 transition-colors overflow-hidden relative aspect-square"
               >
-                <img
-                  src={`/${texture.thumbnail}`}
+                <Image
+                  src={texture.thumbnail}
                   alt={texture.name}
-                  className="w-full h-auto"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 20vw"
+                  className="object-cover"
                 />
               </button>
             ))}
