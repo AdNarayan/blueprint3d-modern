@@ -171,12 +171,6 @@ export class Scene {
     const isGLB = fileName.toLowerCase().endsWith('.glb') || fileName.toLowerCase().endsWith('.gltf')
     const loader = isGLB ? this.glbLoader : this.jsonLoader
 
-    console.log('Scene.addItem loading:', {
-      fileName,
-      isGLB,
-      loaderType: isGLB ? 'GLBLoader' : 'JSONLoader'
-    })
-
     // Wrap in try-catch for better error handling
     try {
       loader.load(

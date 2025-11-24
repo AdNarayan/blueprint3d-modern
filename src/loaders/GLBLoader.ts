@@ -33,7 +33,6 @@ export class GLBLoader {
     onProgress?: (event: ProgressEvent) => void,
     onError?: (error: Error) => void
   ): void {
-    console.log('GLBLoader.load() called with url:', url)
     this.manager.itemStart(url)
 
     this.loader.load(
@@ -118,6 +117,11 @@ export class GLBLoader {
     } else {
       mergedGeometry = this.mergeGeometries(geometries)
     }
+
+    // Scale from meters to centimeters (GLB typically uses meters, this project uses cm)
+    // Apply scale factor of 100 to convert m -> cm
+    const scaleFactor = 100
+    mergedGeometry.scale(scaleFactor, scaleFactor, scaleFactor)
 
     // Ensure bounding box and sphere are computed
     mergedGeometry.computeBoundingBox()
