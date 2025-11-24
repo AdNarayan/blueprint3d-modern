@@ -135,18 +135,8 @@ export class Scene {
     fixed?: boolean
   ): void {
     itemType = itemType || 1
-    console.log('addItem called with:', {
-      position: position,
-      rotation: rotation,
-      scale: scale,
-      fixed: fixed
-    })
     const scope = this
     const loaderCallback = (geometry: THREE.BufferGeometry, materials: THREE.Material[]) => {
-      console.log('Creating item with materials:', {
-        loadedMaterials: materials.length,
-        materialTypes: materials.map((m) => m.type)
-      })
 
       // Ensure materials are properly configured for visibility
       materials.forEach((mat) => {
@@ -171,16 +161,6 @@ export class Scene {
       scope.items.push(item)
       scope.add(item)
 
-      console.log('Item added to scene:', {
-        itemsCount: scope.items.length,
-        itemType: item.constructor.name,
-        itemVisible: item.visible,
-        itemInSceneChildren: scope.scene.children.includes(item),
-        itemPosition: item.position,
-        itemScale: item.scale,
-        sceneChildrenCount: scope.scene.children.length
-      })
-
       item.initObject()
       scope.itemLoadedCallbacks.fire(item)
     }
@@ -190,6 +170,12 @@ export class Scene {
     // Determine which loader to use based on file extension
     const isGLB = fileName.toLowerCase().endsWith('.glb') || fileName.toLowerCase().endsWith('.gltf')
     const loader = isGLB ? this.glbLoader : this.jsonLoader
+
+    console.log('Scene.addItem loading:', {
+      fileName,
+      isGLB,
+      loaderType: isGLB ? 'GLBLoader' : 'JSONLoader'
+    })
 
     // Wrap in try-catch for better error handling
     try {

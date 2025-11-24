@@ -169,15 +169,7 @@ export abstract class Item extends THREE.Mesh {
 
   /** */
   public initObject = function (this: Item): void {
-    console.log('Item initObject called', {
-      position: this.position,
-      halfSize: this.halfSize,
-      boundingBox: this.geometry.boundingBox
-    })
     this.placeInRoom()
-    console.log('After placeInRoom:', {
-      position: this.position
-    })
     // select and stuff
     this.scene.needsUpdate = true
   }

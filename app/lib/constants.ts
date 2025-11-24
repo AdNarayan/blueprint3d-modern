@@ -4,7 +4,7 @@ export const ITEMS = [
     key: 'klippanSofa',
     name: 'KLIPPAN Sofa',
     image: 'rooms/thumbnails/thumbnail_light_fine_wood.jpg',
-    model: 'models/glb/KLIPPAN_simple_draco.glb',
+    model: '/models/glb/KLIPPAN_simple_draco.glb',
     type: '1',
   },
   {

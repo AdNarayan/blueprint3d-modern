@@ -33,6 +33,7 @@ export class GLBLoader {
     onProgress?: (event: ProgressEvent) => void,
     onError?: (error: Error) => void
   ): void {
+    console.log('GLBLoader.load() called with url:', url)
     this.manager.itemStart(url)
 
     this.loader.load(
@@ -102,14 +103,6 @@ export class GLBLoader {
         }
 
         geometries.push(geom)
-
-        console.log('GLBLoader found mesh:', {
-          name: mesh.name,
-          vertexCount: geom.attributes.position.count,
-          hasIndex: !!geom.index,
-          materialCount: meshMaterials.length,
-          groups: geom.groups
-        })
       }
     })
 

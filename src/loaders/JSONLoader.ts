@@ -332,14 +332,6 @@ export class JSONLoader {
     // Create MeshPhongMaterial by default
     const material = new THREE.MeshPhongMaterial(params)
 
-    console.log('Created material:', {
-      type: material.type,
-      isMaterial: material instanceof THREE.Material,
-      color: material.color,
-      hasMap: !!material.map,
-      mapUrl: mat.mapDiffuse
-    })
-
     return material
   }
 }
