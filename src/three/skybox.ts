@@ -2,8 +2,8 @@ import * as THREE from 'three'
 
 export class Skybox {
   private readonly scene: THREE.Scene
-  private readonly topColor = 0xffffff // 0xD8ECF9
-  private readonly bottomColor = 0xe9e9e9 // 0xf9f9f9; // 0x565e63
+  private readonly topColor: number
+  private readonly bottomColor: number
   private readonly verticalOffset = 500
   private readonly sphereRadius = 4000
   private readonly widthSegments = 32
@@ -29,8 +29,15 @@ export class Skybox {
     '}'
   ].join('\n')
 
-  constructor(scene: THREE.Scene) {
+  /**
+   * @param scene - THREE.Scene to add skybox to
+   * @param topColor - Top gradient color (hex number, e.g., 0xFFFFFF). Defaults to white.
+   * @param bottomColor - Bottom gradient color (hex number, e.g., 0xF9F5F1). Defaults to cream white.
+   */
+  constructor(scene: THREE.Scene, topColor = 0xffffff, bottomColor = 0xf9f5f1) {
     this.scene = scene
+    this.topColor = topColor
+    this.bottomColor = bottomColor
     this.init()
   }
 
