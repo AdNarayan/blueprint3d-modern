@@ -13,7 +13,6 @@ import { Settings } from './Settings'
 import { ViewToggle } from './ViewToggle'
 import { MyFloorplans } from './MyFloorplans'
 import { SaveFloorplanDialog } from './SaveFloorplanDialog'
-import { getStorageService } from '@/services/storage'
 import DefaultFloorplan from '@/public/constants/default.json'
 import ExampleFloorplan from '@/public/constants/example.json'
 
@@ -23,6 +22,7 @@ import { Blueprint3d } from '@src/blueprint3d'
 import { floorplannerModes } from '@src/floorplanner/floorplanner_view'
 // @ts-ignore
 import { Configuration, configDimUnit } from '@src/core/configuration'
+import { getStorageService } from '@src/services/storage'
 
 export function Blueprint3DApp() {
   const t = useTranslations('saveDialog')
@@ -30,7 +30,9 @@ export function Blueprint3DApp() {
   const floorplannerCanvasRef = useRef<HTMLCanvasElement>(null)
   const blueprint3dRef = useRef<any>(null)
 
-  const [activeTab, setActiveTab] = useState<'floorplan' | 'design' | 'items' | 'settings' | 'my-floorplans'>('design')
+  const [activeTab, setActiveTab] = useState<
+    'floorplan' | 'design' | 'items' | 'settings' | 'my-floorplans'
+  >('design')
   const [selectedItem, setSelectedItem] = useState<any>(null)
   const [floorplannerMode, setFloorplannerMode] = useState<'move' | 'draw' | 'delete'>('move')
   const [textureType, setTextureType] = useState<'floor' | 'wall' | null>(null)
@@ -54,7 +56,7 @@ export function Blueprint3DApp() {
       floorplannerElement: 'floorplanner-canvas',
       threeElement: '#viewer',
       textureDir: '/models/textures/',
-      widget: false,
+      widget: false
     }
 
     const blueprint3d = new Blueprint3d(opts)
@@ -299,28 +301,31 @@ export function Blueprint3DApp() {
   }, [])
 
   // Save to browser storage
-  const handleSaveFloorplan = useCallback(async (name: string) => {
-    if (!blueprint3dRef.current) return
+  const handleSaveFloorplan = useCallback(
+    async (name: string) => {
+      if (!blueprint3dRef.current) return
 
-    try {
-      const data = blueprint3dRef.current.model.exportSerialized()
+      try {
+        const data = blueprint3dRef.current.model.exportSerialized()
 
-      // Generate top-down thumbnail
-      const thumbnail = generateTopDownThumbnail()
+        // Generate top-down thumbnail
+        const thumbnail = generateTopDownThumbnail()
 
-      const storage = getStorageService()
-      await storage.saveFloorplan(name, data, thumbnail)
+        const storage = getStorageService()
+        await storage.saveFloorplan(name, data, thumbnail)
 
-      alert(t('saveSuccess'))
-    } catch (error) {
-      console.error('Failed to save floorplan:', error)
-      if (error instanceof Error && error.message === 'QUOTA_EXCEEDED') {
-        alert(t('quotaError'))
-      } else {
-        alert(t('saveError'))
+        alert(t('saveSuccess'))
+      } catch (error) {
+        console.error('Failed to save floorplan:', error)
+        if (error instanceof Error && error.message === 'QUOTA_EXCEEDED') {
+          alert(t('quotaError'))
+        } else {
+          alert(t('saveError'))
+        }
       }
-    }
-  }, [generateTopDownThumbnail, t])
+    },
+    [generateTopDownThumbnail, t]
+  )
 
   // Download as file
   const handleDownload = useCallback(() => {
@@ -359,44 +364,50 @@ export function Blueprint3DApp() {
   }, [])
 
   // Handle unit change
-  const handleUnitChange = useCallback((unit: string) => {
-    Configuration.setValue(configDimUnit, unit)
-    // Force floorplanner to redraw with new units
-    if (blueprint3dRef.current && activeTab === 'floorplan') {
-      blueprint3dRef.current.floorplanner.reset()
-    }
-  }, [activeTab])
+  const handleUnitChange = useCallback(
+    (unit: string) => {
+      Configuration.setValue(configDimUnit, unit)
+      // Force floorplanner to redraw with new units
+      if (blueprint3dRef.current && activeTab === 'floorplan') {
+        blueprint3dRef.current.floorplanner.reset()
+      }
+    },
+    [activeTab]
+  )
 
   // Tab change
-  const handleTabChange = useCallback((tab: 'floorplan' | 'design' | 'items' | 'settings' | 'my-floorplans') => {
-    setActiveTab(tab)
-    setTextureType(null)
+  const handleTabChange = useCallback(
+    (tab: 'floorplan' | 'design' | 'items' | 'settings' | 'my-floorplans') => {
+      setActiveTab(tab)
+      setTextureType(null)
 
-    if (blueprint3dRef.current) {
-      blueprint3dRef.current.three.stopSpin()
-      blueprint3dRef.current.three.getController().setSelectedObject(null)
+      if (blueprint3dRef.current) {
+        blueprint3dRef.current.three.stopSpin()
+        blueprint3dRef.current.three.getController().setSelectedObject(null)
 
-      if (tab === 'floorplan') {
-        // Use requestAnimationFrame to ensure DOM has updated before centering
-        requestAnimationFrame(() => {
-          if (blueprint3dRef.current) {
-            blueprint3dRef.current.floorplanner.reset()
-            // Additional frame to ensure canvas size is correct
-            requestAnimationFrame(() => {
-              if (blueprint3dRef.current) {
-                blueprint3dRef.current.floorplanner.resetOrigin()
-              }
-            })
-          }
-        })
-      } else if (tab === 'design') {
-        blueprint3dRef.current.model.floorplan.update()
-        setTimeout(() => {
-          blueprint3dRef.current.three.updateWindowSize()
-        }, 100)
+        if (tab === 'floorplan') {
+          // Use requestAnimationFrame to ensure DOM has updated before centering
+          requestAnimationFrame(() => {
+            if (blueprint3dRef.current) {
+              blueprint3dRef.current.floorplanner.reset()
+              // Additional frame to ensure canvas size is correct
+              requestAnimationFrame(() => {
+                if (blueprint3dRef.current) {
+                  blueprint3dRef.current.floorplanner.resetOrigin()
+                }
+              })
+            }
+          })
+        } else if (tab === 'design') {
+          blueprint3dRef.current.model.floorplan.update()
+          setTimeout(() => {
+            blueprint3dRef.current.three.updateWindowSize()
+          }, 100)
+        }
       }
-    }
-  }, [])
+    },
+    []
+  )
 
   // Floorplanner controls
   const handleFloorplannerModeChange = useCallback((mode: 'move' | 'draw' | 'delete') => {
@@ -406,7 +417,7 @@ export function Blueprint3DApp() {
     const modeMap = {
       move: floorplannerModes.MOVE,
       draw: floorplannerModes.DRAW,
-      delete: floorplannerModes.DELETE,
+      delete: floorplannerModes.DELETE
     }
     blueprint3dRef.current.floorplanner.setMode(modeMap[mode])
   }, [])
@@ -426,14 +437,10 @@ export function Blueprint3DApp() {
       itemName: item.name,
       resizable: true,
       modelUrl: item.model,
-      itemType: parseInt(item.type),
+      itemType: parseInt(item.type)
     }
 
-    blueprint3dRef.current.model.scene.addItem(
-      parseInt(item.type),
-      item.model,
-      metadata
-    )
+    blueprint3dRef.current.model.scene.addItem(parseInt(item.type), item.model, metadata)
     setActiveTab('design')
   }, [])
 

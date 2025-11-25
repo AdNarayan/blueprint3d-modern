@@ -1,15 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { ITEMS } from '@/lib/constants'
+import { ITEMS } from '@src/constants'
 import { useTranslations } from 'next-intl'
 
 interface ItemsListProps {
-  onItemSelect: (item: {
-    name: string
-    model: string
-    type: string
-  }) => void
+  onItemSelect: (item: { name: string; model: string; type: string }) => void
 }
 
 export function ItemsList({ onItemSelect }: ItemsListProps) {
