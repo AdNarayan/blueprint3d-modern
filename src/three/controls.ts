@@ -42,6 +42,9 @@ export class Controls {
   public minDistance = 0
   public maxDistance = 1500 //Infinity;
 
+  // Enable/disable wheel zoom (for controlling page scroll vs zoom behavior)
+  public enableWheelZoom = true
+
   // Set to true to disable this control
   public noRotate = false
   public rotateSpeed = 1.0
@@ -89,9 +92,10 @@ export class Controls {
   private panVector = new THREE.Vector3()
   private state = STATE.NONE
 
-  constructor(object: THREE.Camera, domElement?: HTMLElement | Document) {
+  constructor(object: THREE.Camera, domElement?: HTMLElement | Document, enableWheelZoom = true) {
     this.object = object
     this.domElement = domElement !== undefined ? domElement : document
+    this.enableWheelZoom = enableWheelZoom
 
     this.domElement.addEventListener('contextmenu', (event) => event.preventDefault(), false)
     this.domElement.addEventListener(
@@ -390,6 +394,12 @@ export class Controls {
 
   private onMouseWheel(event: any): void {
     if (this.enabled === false || this.noZoom === true) return
+
+    // If wheel zoom is disabled, allow page scrolling by not preventing default
+    if (!this.enableWheelZoom) return
+
+    // Prevent page scroll when zooming
+    event.preventDefault()
 
     let delta = 0
 

@@ -15,6 +15,9 @@ export interface Options {
 
   /** The texture directory. */
   textureDir?: string
+
+  /** Enable/disable wheel zoom (default: true). Set to false for logged-out users to allow page scroll. */
+  enableWheelZoom?: boolean
 }
 
 /** Blueprint3D core application. */
@@ -30,7 +33,9 @@ export class Blueprint3d {
    */
   constructor(options: Options) {
     this.model = new Model(options.textureDir || '')
-    this.three = new Main(this.model, options.threeElement || document.body, undefined, {})
+    this.three = new Main(this.model, options.threeElement || document.body, undefined, {
+      enableWheelZoom: options.enableWheelZoom ?? true
+    })
 
     if (!options.widget) {
       this.floorplanner = new Floorplanner(options.floorplannerElement || '', this.model.floorplan)

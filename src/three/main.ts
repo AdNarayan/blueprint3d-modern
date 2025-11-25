@@ -19,6 +19,7 @@ interface MainOptions {
   spinSpeed?: number
   clickPan?: boolean
   canMoveFixedItems?: boolean
+  enableWheelZoom?: boolean
 }
 
 export class Main {
@@ -72,7 +73,8 @@ export class Main {
       spin: true,
       spinSpeed: 0.00002,
       clickPan: true,
-      canMoveFixedItems: false
+      canMoveFixedItems: false,
+      enableWheelZoom: true
     }
 
     // override with manually set options
@@ -99,7 +101,7 @@ export class Main {
     // @ts-ignore - Item is imported but not used, keeping for future use
     const skybox = new Skybox(this.scene.getScene(), topColor, bottomColor)
 
-    this.controls = new Controls(this.camera, this.domElement)
+    this.controls = new Controls(this.camera, this.domElement, this.options.enableWheelZoom)
 
     this.hud = new HUD(this)
 
