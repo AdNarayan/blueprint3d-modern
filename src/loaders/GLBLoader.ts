@@ -162,15 +162,6 @@ export class GLBLoader {
       return mat
     })
 
-    console.log('GLBLoader extracted:', {
-      vertexCount: mergedGeometry.attributes.position.count,
-      hasIndex: !!mergedGeometry.index,
-      materialCount: processedMaterials.length,
-      boundingBox: mergedGeometry.boundingBox,
-      groups: mergedGeometry.groups,
-      materialTypes: processedMaterials.map((m) => m.type)
-    })
-
     return { geometry: mergedGeometry, materials: processedMaterials }
   }
 
