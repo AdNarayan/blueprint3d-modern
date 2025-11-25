@@ -1,4 +1,5 @@
 // Storage Service - Extensible design for local and remote storage
+import { simplifyCanvasData, estimateTokenSavings } from './simplify-canvas-data'
 
 export interface FloorplanData {
   id: string
@@ -20,7 +21,12 @@ export interface IStorageService {
   getFloorplan(id: string): Promise<FloorplanData | null>
 
   // Update an existing floorplan
-  updateFloorplan(id: string, name: string, data: string, thumbnail?: string): Promise<FloorplanData>
+  updateFloorplan(
+    id: string,
+    name: string,
+    data: string,
+    thumbnail?: string
+  ): Promise<FloorplanData>
 
   // Delete a floorplan
   deleteFloorplan(id: string): Promise<void>
@@ -66,7 +72,7 @@ class IndexedDBStorageService implements IStorageService {
       data,
       thumbnail,
       createdAt: now,
-      updatedAt: now,
+      updatedAt: now
     }
 
     return new Promise((resolve, reject) => {
@@ -108,7 +114,12 @@ class IndexedDBStorageService implements IStorageService {
     })
   }
 
-  async updateFloorplan(id: string, name: string, data: string, thumbnail?: string): Promise<FloorplanData> {
+  async updateFloorplan(
+    id: string,
+    name: string,
+    data: string,
+    thumbnail?: string
+  ): Promise<FloorplanData> {
     const db = await this.getDB()
     const existing = await this.getFloorplan(id)
 
@@ -121,7 +132,7 @@ class IndexedDBStorageService implements IStorageService {
       name,
       data,
       thumbnail: thumbnail || existing.thumbnail,
-      updatedAt: Date.now(),
+      updatedAt: Date.now()
     }
 
     return new Promise((resolve, reject) => {
@@ -149,7 +160,7 @@ class IndexedDBStorageService implements IStorageService {
 }
 
 // Local Storage Implementation (Kept for backward compatibility)
- // @ts-ignore
+// @ts-ignore
 class LocalStorageService implements IStorageService {
   private readonly STORAGE_KEY = 'blueprint3d_floorplans'
 
@@ -162,7 +173,10 @@ class LocalStorageService implements IStorageService {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(floorplans))
     } catch (e) {
-      if (e instanceof DOMException && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+      if (
+        e instanceof DOMException &&
+        (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
+      ) {
         throw new Error('QUOTA_EXCEEDED')
       }
       throw e
@@ -194,7 +208,7 @@ class LocalStorageService implements IStorageService {
       data,
       thumbnail,
       createdAt: now,
-      updatedAt: now,
+      updatedAt: now
     }
     floorplans.push(newFloorplan)
     this.setFloorplans(floorplans)
@@ -207,12 +221,17 @@ class LocalStorageService implements IStorageService {
 
   async getFloorplan(id: string): Promise<FloorplanData | null> {
     const floorplans = this.getFloorplans()
-    return floorplans.find(f => f.id === id) || null
+    return floorplans.find((f) => f.id === id) || null
   }
 
-  async updateFloorplan(id: string, name: string, data: string, thumbnail?: string): Promise<FloorplanData> {
+  async updateFloorplan(
+    id: string,
+    name: string,
+    data: string,
+    thumbnail?: string
+  ): Promise<FloorplanData> {
     const floorplans = this.getFloorplans()
-    const index = floorplans.findIndex(f => f.id === id)
+    const index = floorplans.findIndex((f) => f.id === id)
     if (index === -1) {
       throw new Error(`Floorplan with id ${id} not found`)
     }
@@ -221,7 +240,7 @@ class LocalStorageService implements IStorageService {
       name,
       data,
       thumbnail: thumbnail || floorplans[index].thumbnail,
-      updatedAt: Date.now(),
+      updatedAt: Date.now()
     }
     floorplans[index] = updatedFloorplan
     this.setFloorplans(floorplans)
@@ -230,7 +249,7 @@ class LocalStorageService implements IStorageService {
 
   async deleteFloorplan(id: string): Promise<void> {
     const floorplans = this.getFloorplans()
-    const filtered = floorplans.filter(f => f.id !== id)
+    const filtered = floorplans.filter((f) => f.id !== id)
     this.setFloorplans(filtered)
   }
 }
@@ -244,14 +263,41 @@ class RemoteStorageService implements IStorageService {
   }
 
   async saveFloorplan(name: string, data: string, thumbnail?: string): Promise<FloorplanData> {
+    // Parse the original canvas data
+    const parsedData = JSON.parse(data)
+
+    // Simplify canvas data for LLM consumption
+    const simplifiedData = simplifyCanvasData(parsedData)
+
+    // Calculate token savings
+    const savings = estimateTokenSavings(parsedData, simplifiedData)
+
+    // Console output for verification (as requested - not saving to DB yet)
+    console.group('🎨 Canvas Data Simplification')
+    console.log('📊 Token Savings:', {
+      original: `${savings.originalSize.toLocaleString()} chars`,
+      simplified: `${savings.simplifiedSize.toLocaleString()} chars`,
+      saved: `${savings.savings.toLocaleString()} chars (${savings.savingsPercent}%)`
+    })
+    console.log('📦 Simplified Data Structure:', {
+      materials: simplifiedData.materials.length,
+      corners: simplifiedData.corners.length,
+      walls: simplifiedData.layout.walls.length,
+      areas: simplifiedData.layout.areas.length,
+      items: simplifiedData.items.length
+    })
+    console.log('🔍 Detailed Simplified Data:', JSON.stringify(simplifiedData, null, 2))
+    console.groupEnd()
+
     const response = await fetch(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         roomName: name,
-        canvasData: JSON.parse(data), // Parse the stringified data back to object
-        previewBase64: thumbnail || '',
-      }),
+        canvasData: parsedData, // Original data
+        //canvasDataSimplified: simplifiedData, // Simplified data for LLM
+        previewBase64: thumbnail || ''
+      })
     })
 
     if (!response.ok) {
@@ -271,7 +317,7 @@ class RemoteStorageService implements IStorageService {
         data: apiData.canvas_data,
         thumbnail: apiData.preview_url,
         createdAt: new Date(apiData.created_at).getTime(),
-        updatedAt: new Date(apiData.updated_at).getTime(),
+        updatedAt: new Date(apiData.updated_at).getTime()
       }
     }
 
@@ -295,7 +341,7 @@ class RemoteStorageService implements IStorageService {
         data: item.canvas_data || '{}',
         thumbnail: item.preview_url,
         createdAt: new Date(item.created_at).getTime(),
-        updatedAt: new Date(item.updated_at).getTime(),
+        updatedAt: new Date(item.updated_at).getTime()
       }))
     }
 
@@ -319,22 +365,54 @@ class RemoteStorageService implements IStorageService {
         data: apiData.canvas_data,
         thumbnail: apiData.preview_url,
         createdAt: new Date(apiData.created_at).getTime(),
-        updatedAt: new Date(apiData.updated_at).getTime(),
+        updatedAt: new Date(apiData.updated_at).getTime()
       }
     }
 
     return null
   }
 
-  async updateFloorplan(id: string, name: string, data: string, thumbnail?: string): Promise<FloorplanData> {
+  async updateFloorplan(
+    id: string,
+    name: string,
+    data: string,
+    thumbnail?: string
+  ): Promise<FloorplanData> {
+    // Parse the original canvas data
+    const parsedData = JSON.parse(data)
+
+    // Simplify canvas data for LLM consumption
+    const simplifiedData = simplifyCanvasData(parsedData)
+
+    // Calculate token savings
+    const savings = estimateTokenSavings(parsedData, simplifiedData)
+
+    // Console output for verification (as requested - not saving to DB yet)
+    console.group('🎨 Canvas Data Simplification (Update)')
+    console.log('📊 Token Savings:', {
+      original: `${savings.originalSize.toLocaleString()} chars`,
+      simplified: `${savings.simplifiedSize.toLocaleString()} chars`,
+      saved: `${savings.savings.toLocaleString()} chars (${savings.savingsPercent}%)`
+    })
+    console.log('📦 Simplified Data Structure:', {
+      materials: simplifiedData.materials.length,
+      corners: simplifiedData.corners.length,
+      walls: simplifiedData.layout.walls.length,
+      areas: simplifiedData.layout.areas.length,
+      items: simplifiedData.items.length
+    })
+    console.log('🔍 Detailed Simplified Data:', JSON.stringify(simplifiedData, null, 2))
+    console.groupEnd()
+
     const response = await fetch(`${this.apiUrl}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         roomName: name,
-        canvasData: JSON.parse(data),
-        previewBase64: thumbnail,
-      }),
+        canvasData: parsedData, // Original data
+        //canvasDataSimplified: simplifiedData, // Simplified data for LLM
+        previewBase64: thumbnail
+      })
     })
 
     if (!response.ok) {
@@ -352,7 +430,7 @@ class RemoteStorageService implements IStorageService {
         data: apiData.canvas_data,
         thumbnail: apiData.preview_url,
         createdAt: new Date(apiData.created_at).getTime(),
-        updatedAt: new Date(apiData.updated_at).getTime(),
+        updatedAt: new Date(apiData.updated_at).getTime()
       }
     }
 
@@ -361,7 +439,7 @@ class RemoteStorageService implements IStorageService {
 
   async deleteFloorplan(id: string): Promise<void> {
     const response = await fetch(`${this.apiUrl}/${id}`, {
-      method: 'DELETE',
+      method: 'DELETE'
     })
 
     if (!response.ok) {
