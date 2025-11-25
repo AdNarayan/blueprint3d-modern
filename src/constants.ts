@@ -509,22 +509,22 @@ export const ITEMS = [
   },
   // Special items (doors, windows)
   {
-    key: 'closedDoor',
-    name: 'Closed Door',
+    key: 'doorOne',
+    name: 'Door One',
     image: '/models/thumbnails/DoorWindows/door-1.jpg',
     model: 'https://cdn-images.lumenfeng.com/door-1.glb',
     type: '7'
   },
   {
-    key: 'openDoor',
-    name: 'Open Door',
+    key: 'doorTwo',
+    name: 'Door Two',
     image: '/models/thumbnails/DoorWindows/door-2.jpg',
     model: 'https://cdn-images.lumenfeng.com/door-2.glb',
     type: '7'
   },
   {
-    key: 'window',
-    name: 'Window',
+    key: 'windowOne',
+    name: 'Window One',
     image: '/models/thumbnails/DoorWindows/window-1.jpg',
     model: 'https://cdn-images.lumenfeng.com/window-1.glb',
     type: '3'

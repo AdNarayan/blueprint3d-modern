@@ -152,7 +152,9 @@
     "stoolTwentyFive": "Stool - 25",
     "closedDoor": "Closed Door",
     "openDoor": "Open Door",
-    "window": "Window"
+    "windowOne": "Window - 1",
+    "doorOne": "Door - 1",
+    "doorTwo": "Door - 2"
   },
   "textures": {
     "floor": {

@@ -152,7 +152,9 @@
     "stoolTwentyFive": "凳子 - 25",
     "closedDoor": "关闭的门",
     "openDoor": "打开的门",
-    "window": "窗户"
+    "windowOne": "窗户 - 1",
+    "doorOne": "门 - 1",
+    "doorTwo": "门 - 2"
   },
   "textures": {
     "floor": {
