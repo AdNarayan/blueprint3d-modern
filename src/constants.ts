@@ -535,8 +535,8 @@ export const ITEMS = [
 export const FLOOR_TEXTURES = [
   {
     name: 'Light Fine Wood',
-    thumbnail: '/rooms/thumbnails/thumbnail_light_fine_wood.jpg',
-    url: '/rooms/textures/light_fine_wood.jpg',
+    thumbnail: 'https://cdn-images.lumenfeng.com/models-cover/thumbnail_light_fine_wood.jpg',
+    url: 'https://cdn-images.lumenfeng.com/models-cover/light_fine_wood.jpg',
     stretch: false,
     scale: 300
   }
@@ -546,22 +546,22 @@ export const FLOOR_TEXTURES = [
 export const WALL_TEXTURES = [
   {
     name: 'Marble Tiles',
-    thumbnail: '/rooms/thumbnails/thumbnail_marbletiles.jpg',
-    url: '/rooms/textures/marbletiles.jpg',
+    thumbnail: 'https://cdn-images.lumenfeng.com/models-cover/thumbnail_marbletiles.jpg',
+    url: 'https://cdn-images.lumenfeng.com/models-cover/marbletiles.jpg',
     stretch: false,
     scale: 300
   },
   {
     name: 'Wallmap Yellow',
-    thumbnail: '/rooms/thumbnails/thumbnail_wallmap_yellow.png',
-    url: '/rooms/textures/wallmap_yellow.png',
+    thumbnail: 'https://cdn-images.lumenfeng.com/models-cover/thumbnail_wallmap_yellow.png',
+    url: 'https://cdn-images.lumenfeng.com/models-cover/wallmap_yellow.png',
     stretch: true,
     scale: 0
   },
   {
     name: 'Light Brick',
-    thumbnail: '/rooms/thumbnails/thumbnail_light_brick.jpg',
-    url: '/rooms/textures/light_brick.jpg',
+    thumbnail: 'https://cdn-images.lumenfeng.com/models-cover/thumbnail_light_brick.jpg',
+    url: 'https://cdn-images.lumenfeng.com/models-cover/light_brick.jpg',
     stretch: false,
     scale: 100
   }
