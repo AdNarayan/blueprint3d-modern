@@ -13,8 +13,8 @@ import { Settings } from './Settings'
 import { ViewToggle } from './ViewToggle'
 import { MyFloorplans } from './MyFloorplans'
 import { SaveFloorplanDialog } from './SaveFloorplanDialog'
-import DefaultFloorplan from '@/public/constants/default.json'
-import ExampleFloorplan from '@/public/constants/example.json'
+import DefaultFloorplan from '../../src/templates/default.json'
+import ExampleFloorplan from '../../src/templates/example.json'
 
 // @ts-ignore
 import { Blueprint3d } from '@src/blueprint3d'
