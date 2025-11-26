@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import {
   Dialog,
@@ -9,9 +9,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '../ui/Dialog'
-import { Button } from '../ui/Button'
-import { Input } from '../ui/Input'
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 interface SaveFloorplanDialogProps {
   open: boolean
@@ -28,6 +28,13 @@ export function SaveFloorplanDialog({
 }: SaveFloorplanDialogProps) {
   const t = useTranslations('saveDialog')
   const [name, setName] = useState(defaultName)
+
+  // Update name when defaultName changes
+  useEffect(() => {
+    if (open) {
+      setName(defaultName)
+    }
+  }, [open, defaultName])
 
   const handleSave = () => {
     if (name.trim()) {
@@ -66,10 +73,10 @@ export function SaveFloorplanDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button variant="default" onClick={() => onOpenChange(false)}>
+          <Button variant="secondary" onClick={() => onOpenChange(false)}>
             {t('cancel')}
           </Button>
-          <Button variant="primary" onClick={handleSave} disabled={!name.trim()}>
+          <Button variant="default" onClick={handleSave} disabled={!name.trim()}>
             {t('save')}
           </Button>
         </DialogFooter>

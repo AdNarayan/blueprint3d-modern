@@ -18,17 +18,17 @@ export function TextureSelector({ type, onTextureSelect }: TextureSelectorProps)
 
   return (
     <div className="mx-5">
-      <div className="border border-gray-200 rounded">
-        <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+      <div className="border border-border rounded">
+        <div className="bg-muted px-4 py-3 border-b border-border">
           <h3 className="font-medium">{type === 'floor' ? t('adjustFloor') : t('adjustWall')}</h3>
         </div>
-        <div className="p-4 text-gray-900">
+        <div className="p-4 text-foreground">
           <div className="grid grid-cols-2 gap-3">
             {textures.map((texture, index) => (
               <button
                 key={index}
                 onClick={() => onTextureSelect(texture.url, texture.stretch, texture.scale)}
-                className="border border-gray-200 rounded hover:border-blue-500 transition-colors overflow-hidden relative aspect-square"
+                className="relative aspect-square border border-border rounded hover:border-primary transition-colors overflow-hidden"
               >
                 <Image
                   src={texture.thumbnail}

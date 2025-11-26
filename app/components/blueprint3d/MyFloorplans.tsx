@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { Trash2, Download, FolderOpen } from 'lucide-react'
+import { toast } from 'sonner'
 import { getStorageService, FloorplanData } from '@src/services/storage'
 import { useTranslations, useLocale } from 'next-intl'
+import { Button } from '@/components/ui/button'
 
 interface MyFloorplansProps {
   onLoadFloorplan: (data: string) => void
@@ -21,41 +23,84 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
 
   const loadFloorplans = async () => {
     try {
-      const storage = getStorageService()
+      // Always use remote storage (API)
+      const storage = getStorageService(true)
       const data = await storage.getAllFloorplans()
       setFloorplans(data)
     } catch (error) {
       console.error('Failed to load floorplans:', error)
+      // If user is not logged in or other errors, just show empty list
+      // TODO: Show showcase floorplans for unauthenticated users
+      setFloorplans([])
     } finally {
       setLoading(false)
     }
   }
 
-  const handleLoad = (floorplan: FloorplanData) => {
-    onLoadFloorplan(floorplan.data)
+  const handleLoad = async (id: string, name: string) => {
+    const toastId = toast.loading(t('loadingItem', { name }))
+
+    try {
+      // Always use remote storage (API) to get the latest data
+      const storage = getStorageService(true)
+      const floorplan = await storage.getFloorplan(id)
+
+      if (!floorplan) {
+        toast.error(t('loadNotFound'), { id: toastId })
+        return
+      }
+
+      onLoadFloorplan(JSON.stringify(floorplan.data))
+      toast.success(t('loadedSuccess', { name }), { id: toastId })
+    } catch (error) {
+      console.error('Failed to load floorplan:', error)
+      toast.error(t('loadError'), { id: toastId })
+    }
   }
 
-  const handleDownload = (floorplan: FloorplanData) => {
-    const blob = new Blob([floorplan.data], { type: 'text' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = `${floorplan.name}.blueprint3d`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
+  const handleDownload = async (id: string, name: string) => {
+    const toastId = toast.loading(t('downloadingItem', { name }))
+
+    try {
+      // Always use remote storage (API) to get the latest data
+      const storage = getStorageService(true)
+      const floorplan = await storage.getFloorplan(id)
+
+      if (!floorplan) {
+        toast.error(t('loadNotFound'), { id: toastId })
+        return
+      }
+
+      const blob = new Blob([JSON.stringify(floorplan.data)], { type: 'text' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `${floorplan.name}.lumenfeng`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      toast.success(t('downloadSuccess', { name }), { id: toastId })
+    } catch (error) {
+      console.error('Failed to download floorplan:', error)
+      toast.error(t('loadError'), { id: toastId })
+    }
   }
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, name: string) => {
     if (!confirm(t('deleteConfirm'))) {
       return
     }
 
+    const toastId = toast.loading(t('deletingItem', { name }))
+
     try {
-      const storage = getStorageService()
+      // Always use remote storage (API)
+      const storage = getStorageService(true)
       await storage.deleteFloorplan(id)
       await loadFloorplans()
+      toast.success(t('deleteSuccess', { name }), { id: toastId })
     } catch (error) {
       console.error('Failed to delete floorplan:', error)
+      toast.error(t('deleteError') || 'Failed to delete floorplan', { id: toastId })
     }
   }
 
@@ -66,14 +111,14 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit',
+      minute: '2-digit'
     })
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="text-gray-500">{t('loading')}</div>
+        <div className="text-muted-foreground">{t('loading')}</div>
       </div>
     )
   }
@@ -81,29 +126,27 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
   if (floorplans.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-8 text-center">
-        <FolderOpen className="h-16 w-16 text-gray-300 mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">{t('noFloorplans')}</h3>
-        <p className="text-sm text-gray-500">
-          {t('saveFirst')}
-        </p>
+        <FolderOpen className="h-16 w-16 text-muted mb-4" />
+        <h3 className="text-lg font-medium text-foreground mb-2">{t('noFloorplans')}</h3>
+        <p className="text-sm text-muted-foreground">{t('saveFirst')}</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-3">
-      <div className="text-sm text-gray-600 mb-4">
-        {floorplans.length} saved {floorplans.length === 1 ? 'floorplan' : 'floorplans'}
+      <div className="text-sm text-muted-foreground mb-4">
+        {t('savedCount', { count: floorplans.length })}
       </div>
 
       {floorplans.map((floorplan) => (
         <div
           key={floorplan.id}
-          className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+          className="border border-border rounded-lg p-4 hover:shadow-md transition-shadow bg-card"
         >
           {/* Thumbnail */}
           {floorplan.thumbnail && (
-            <div className="mb-3 rounded overflow-hidden bg-gray-100">
+            <div className="mb-3 rounded overflow-hidden bg-muted">
               <img
                 src={floorplan.thumbnail}
                 alt={floorplan.name}
@@ -113,35 +156,39 @@ export function MyFloorplans({ onLoadFloorplan }: MyFloorplansProps) {
           )}
 
           {/* Title */}
-          <h3 className="font-medium text-gray-900 mb-1 truncate">{floorplan.name}</h3>
+          <h3 className="font-medium text-foreground mb-1 truncate">{floorplan.name}</h3>
 
           {/* Date */}
-          <p className="text-xs text-gray-500 mb-3">
+          <p className="text-xs text-muted-foreground mb-3">
             {t('lastModified')}: {formatDate(floorplan.updatedAt)}
           </p>
 
           {/* Actions */}
           <div className="flex gap-2">
-            <button
-              onClick={() => handleLoad(floorplan)}
-              className="flex-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            <Button
+              onClick={() => handleLoad(floorplan.id, floorplan.name)}
+              size="sm"
+              className="flex-1 gradient-background text-primary-foreground"
             >
               {t('loadButton')}
-            </button>
-            <button
-              onClick={() => handleDownload(floorplan)}
-              className="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+            </Button>
+            <Button
+              onClick={() => handleDownload(floorplan.id, floorplan.name)}
+              size="sm"
+              variant="outline"
               title={t('downloadButton')}
             >
               <Download className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => handleDelete(floorplan.id)}
-              className="px-3 py-1.5 text-sm bg-white border border-red-300 text-red-600 rounded hover:bg-red-50 transition-colors"
+            </Button>
+            <Button
+              onClick={() => handleDelete(floorplan.id, floorplan.name)}
+              size="sm"
+              variant="outline"
+              className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
               title={t('deleteButton')}
             >
               <Trash2 className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
         </div>
       ))}

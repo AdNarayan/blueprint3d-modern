@@ -2,21 +2,25 @@
 
 import { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react'
-import { Button } from '../ui/Button'
-import { Input } from '../ui/Input'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Checkbox } from '@/components/ui/checkbox'
 import { useTranslations } from 'next-intl'
-// @ts-ignore
+import type { Item } from '@src/items/item'
+
 import { Configuration, configDimUnit } from '@src/core/configuration'
 
 interface ContextMenuProps {
-  selectedItem: any | null
+  selectedItem: Item | null
   onDelete: () => void
   onResize: (height: number, width: number, depth: number) => void
   onFixedChange: (fixed: boolean) => void
 }
 
 export function ContextMenu({ selectedItem, onDelete, onResize, onFixedChange }: ContextMenuProps) {
+  console.log({ selectedItem })
   const t = useTranslations('contextMenu')
+  //const tItems = useTranslations('items')
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
   const [depth, setDepth] = useState(0)
@@ -132,7 +136,7 @@ export function ContextMenu({ selectedItem, onDelete, onResize, onFixedChange }:
       <br />
       <br />
       <Button
-        variant="danger"
+        variant={'destructive'}
         className="w-full flex items-center justify-center gap-2"
         onClick={onDelete}
       >
@@ -140,11 +144,11 @@ export function ContextMenu({ selectedItem, onDelete, onResize, onFixedChange }:
         {t('deleteItem')}
       </Button>
       <br />
-      <div className="border border-gray-200 rounded">
-        <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+      <div className="border border-border rounded">
+        <div className="bg-muted px-4 py-3 border-b border-border">
           <h3 className="font-medium">{t('adjustSize')}</h3>
         </div>
-        <div className="p-4 text-gray-900">
+        <div className="p-4 text-foreground">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <label className="w-20 text-sm">{t('width')}</label>
@@ -171,19 +175,14 @@ export function ContextMenu({ selectedItem, onDelete, onResize, onFixedChange }:
               />
             </div>
           </div>
-          <small className="text-gray-500 text-xs mt-3 block">
+          <small className="text-muted-foreground text-xs mt-3 block">
             {t('measurementsIn')} {getUnitLabel(currentUnit)}.
           </small>
         </div>
       </div>
 
       <label className="flex items-center gap-2 mt-4 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={fixed}
-          onChange={(e) => handleFixedChange(e.target.checked)}
-          className="rounded"
-        />
+        <Checkbox checked={fixed} onCheckedChange={handleFixedChange} />
         <span className="text-sm">{t('lockInPlace')}</span>
       </label>
     </div>

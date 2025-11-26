@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { Button } from '@/components/ui/button'
 
 interface MainControlsProps {
   onNew: () => void
@@ -14,33 +15,26 @@ export function MainControls({ onNew, onSave, onDownload, onLoad }: MainControls
 
   return (
     <div className="absolute top-5 left-5 flex gap-2">
-      <button
-        onClick={onNew}
-        className="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-      >
+      <Button onClick={onNew} variant="outline" size="sm">
         {t('newPlan')}
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={onSave}
-        className="px-3 py-1.5 text-sm bg-blue-600 text-white border border-blue-600 rounded hover:bg-blue-700 transition-colors"
+        variant="default"
+        size="sm"
+        className="bg-primary text-primary-foreground"
       >
         {t('savePlan')}
-      </button>
-      <button
-        onClick={onDownload}
-        className="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-      >
+      </Button>
+      <Button onClick={onDownload} variant="outline" size="sm">
         {t('downloadPlan')}
-      </button>
-      <label className="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors cursor-pointer">
-        <input
-          type="file"
-          className="hidden"
-          onChange={onLoad}
-          accept=".blueprint3d"
-        />
-        {t('loadPlan')}
-      </label>
+      </Button>
+      <Button variant="outline" size="sm" asChild>
+        <label className="cursor-pointer">
+          <input type="file" className="hidden" onChange={onLoad} accept=".lumenfeng" />
+          {t('loadPlan')}
+        </label>
+      </Button>
     </div>
   )
 }

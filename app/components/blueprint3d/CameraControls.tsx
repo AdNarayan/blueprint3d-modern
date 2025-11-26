@@ -1,7 +1,7 @@
 'use client'
 
 import { ZoomIn, ZoomOut, Home, ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from 'lucide-react'
-import { Button } from '../ui/Button'
+import { Button } from '@/components/ui/button'
 
 interface CameraControlsProps {
   onZoomIn: () => void
@@ -40,7 +40,7 @@ export function CameraControls({
         <Button size="sm" onClick={onMoveLeft}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <div className="flex flex-col gap-0">
+        <div className="flex flex-col gap-1">
           <Button size="sm" onClick={onMoveUp} className="rounded-b-none">
             <ArrowUp className="h-4 w-4" />
           </Button>

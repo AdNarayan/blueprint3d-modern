@@ -1,7 +1,7 @@
 'use client'
 
 import { Move, Pencil, Trash2 } from 'lucide-react'
-import { Button } from '../ui/Button'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
 
@@ -20,7 +20,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
         <div className="flex gap-2">
           <Button
             size="sm"
-            variant={mode === 'move' ? 'primary' : 'default'}
+            variant={mode === 'move' ? 'secondary' : 'default'}
             onClick={() => onModeChange('move')}
             className={cn('flex items-center gap-2')}
           >
@@ -29,7 +29,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
           </Button>
           <Button
             size="sm"
-            variant={mode === 'draw' ? 'primary' : 'default'}
+            variant={mode === 'draw' ? 'secondary' : 'default'}
             onClick={() => onModeChange('draw')}
             className={cn('flex items-center gap-2')}
           >
@@ -38,7 +38,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
           </Button>
           <Button
             size="sm"
-            variant={mode === 'delete' ? 'primary' : 'default'}
+            variant={mode === 'delete' ? 'secondary' : 'default'}
             onClick={() => onModeChange('delete')}
             className={cn('flex items-center gap-2')}
           >
@@ -47,7 +47,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
           </Button>
         </div>
 
-        <Button size="sm" variant="primary" onClick={onDone}>
+        <Button size="sm" variant="secondary" onClick={onDone}>
           {t('done')} &raquo;
         </Button>
       </div>

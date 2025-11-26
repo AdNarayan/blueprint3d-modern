@@ -17,7 +17,7 @@ export function ItemsList({ onItemSelect }: ItemsListProps) {
         <button
           key={index}
           onClick={() => onItemSelect(item)}
-          className="border border-gray-200 rounded hover:border-blue-500 transition-colors p-2 flex flex-col items-center gap-2 cursor-pointer bg-white"
+          className="border border-border rounded hover:border-primary transition-colors p-2 flex flex-col items-center gap-2 cursor-pointer bg-card"
         >
           <div className="relative w-full aspect-square">
             <Image
