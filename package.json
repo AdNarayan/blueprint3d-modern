@@ -48,7 +48,7 @@
     "url": "https://github.com/Ekki/blueprint3d.git"
   },
   "scripts": {
-    "build": "cd app && pnpm install && pnpm run build",
+    "build": "pnpm install && cd app && pnpm install && pnpm run build",
     "dev": "cd app && next dev",
     "start": "cd app && next start",
     "build:vite": "vite build",
