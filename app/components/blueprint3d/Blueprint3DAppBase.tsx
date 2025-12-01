@@ -379,7 +379,7 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
       renderer.render(three.scene.getScene(), camera)
 
       // Capture as JPEG with good quality (0.85 balances quality and file size)
-      const dataURL = currentCanvas.toDataURL('image/png', 0.85)
+      const dataURL = currentCanvas.toDataURL('image/webp', 0.85)
 
       return dataURL
     } finally {
