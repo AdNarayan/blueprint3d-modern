@@ -311,27 +311,61 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
     blueprint3dRef.current.model.loadSerialized(JSON.stringify(DefaultFloorplan))
   }, [])
 
-  // Generate top-down thumbnail
+  // Generate top-down thumbnail with high resolution and 3:2 aspect ratio
   const generateTopDownThumbnail = useCallback((): string => {
     if (!blueprint3dRef.current) return ''
 
     const three = blueprint3dRef.current.three
     const camera = three.camera
     const controls = three.controls
+    const renderer = three.renderer
 
-    // Save current camera state
+    // Save current state
     const savedPosition = camera.position.clone()
     const savedTarget = controls.target.clone()
     const savedRotation = camera.rotation.clone()
+    const savedAspect = camera.aspect
+
+    // Get current renderer size
+    const currentCanvas = renderer.domElement
+    const savedWidth = currentCanvas.width
+    const savedHeight = currentCanvas.height
+
+    // Target resolution: 1800x1200 (3:2 ratio) for high quality
+    const targetWidth = 1800
+    const targetHeight = 1200
 
     try {
+      // Temporarily resize renderer to high resolution
+      renderer.setSize(targetWidth, targetHeight, false)
+
+      // Update camera aspect ratio to 3:2
+      camera.aspect = targetWidth / targetHeight
+      camera.updateProjectionMatrix()
+
       // Get floorplan dimensions
       const center = blueprint3dRef.current.model.floorplan.getCenter()
       const size = blueprint3dRef.current.model.floorplan.getSize()
 
-      // Calculate distance to fit all rooms in view
-      const maxDim = Math.max(size.x, size.z)
-      const distance = maxDim * 1.8 // Add margin to ensure everything fits
+      // Calculate proper framing for 3:2 aspect ratio with margin
+      const targetAspect = 3 / 2
+      const roomAspect = size.x / size.z
+      const margin = 1.2 // 40% margin around the room for spacing
+
+      let viewWidth: number, viewHeight: number
+      if (roomAspect > targetAspect) {
+        // Room is wider than target aspect, fit by width
+        viewWidth = size.x * margin
+        viewHeight = viewWidth / targetAspect
+      } else {
+        // Room is taller than target aspect, fit by height
+        viewHeight = size.z * margin
+        viewWidth = viewHeight * targetAspect
+      }
+
+      // Calculate camera distance to fit the calculated view
+      const fov = camera.fov * (Math.PI / 180)
+      const distance = Math.max(viewWidth, viewHeight) / (2 * Math.tan(fov / 2))
 
       // Set camera to top-down view
       controls.target.set(center.x, 0, center.z)
@@ -340,42 +374,20 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
       camera.updateProjectionMatrix()
       controls.update()
 
-      // Force render
-      three.renderer.clear()
-      three.renderer.render(three.scene.getScene(), camera)
+      // Render at high resolution
+      renderer.clear()
+      renderer.render(three.scene.getScene(), camera)
 
-      // Capture screenshot and resize to smaller thumbnail
-      const sourceCanvas = three.renderer.domElement
+      // Capture as JPEG with good quality (0.85 balances quality and file size)
+      const dataURL = currentCanvas.toDataURL('image/png', 0.85)
 
-      // Create a smaller canvas for thumbnail (max 400px width/height)
-      const maxSize = 400
-      const aspect = sourceCanvas.width / sourceCanvas.height
-      let thumbnailWidth = maxSize
-      let thumbnailHeight = maxSize
-
-      if (aspect > 1) {
-        thumbnailHeight = maxSize / aspect
-      } else {
-        thumbnailWidth = maxSize * aspect
-      }
-
-      // Create temporary canvas for resizing
-      const tempCanvas = document.createElement('canvas')
-      tempCanvas.width = thumbnailWidth
-      tempCanvas.height = thumbnailHeight
-      const ctx = tempCanvas.getContext('2d')
-
-      if (ctx) {
-        // Draw resized image
-        ctx.drawImage(sourceCanvas, 0, 0, thumbnailWidth, thumbnailHeight)
-        // Use JPEG with quality 0.6 for better compression
-        const thumbnail = tempCanvas.toDataURL('image/jpeg', 0.6)
-        return thumbnail
-      }
-
-      return sourceCanvas.toDataURL('image/jpeg', 0.6)
+      return dataURL
     } finally {
+      // Restore renderer size
+      renderer.setSize(savedWidth, savedHeight, false)
+
       // Restore camera state
+      camera.aspect = savedAspect
       camera.position.copy(savedPosition)
       controls.target.copy(savedTarget)
       camera.rotation.copy(savedRotation)
@@ -383,8 +395,8 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
       controls.update()
 
       // Force render to restore view
-      three.renderer.clear()
-      three.renderer.render(three.scene.getScene(), camera)
+      renderer.clear()
+      renderer.render(three.scene.getScene(), camera)
     }
   }, [])
 
