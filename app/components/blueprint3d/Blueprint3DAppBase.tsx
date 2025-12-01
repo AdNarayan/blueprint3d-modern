@@ -350,7 +350,7 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
       // Calculate proper framing for 3:2 aspect ratio with margin
       const targetAspect = 3 / 2
       const roomAspect = size.x / size.z
-      const margin = 1.2 // 40% margin around the room for spacing
+      const margin = 1.4 // 40% margin around the room for spacing
 
       let viewWidth: number, viewHeight: number
       if (roomAspect > targetAspect) {
