@@ -204,5 +204,18 @@
     "saveError": "Failed to save floorplan. Please try again.",
     "quotaError": "Storage is full. Please delete some old floorplans to make space.",
     "openSidebar": "Open sidebar"
+  },
+  "bedSizeInput": {
+    "title": "Bed Size",
+    "bedDimensions": "Bed Dimensions",
+    "width": "Width",
+    "length": "Length",
+    "measurementsIn": "Measurements in",
+    "units": {
+      "inches": "inches",
+      "meters": "meters",
+      "centimeters": "centimeters",
+      "millimeters": "millimeters"
+    }
   }
 }

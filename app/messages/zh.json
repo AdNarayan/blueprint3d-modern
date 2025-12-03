@@ -204,5 +204,18 @@
     "saveError": "保存平面图失败,请重试。",
     "quotaError": "存储空间已满,请删除一些旧的平面图以腾出空间。",
     "openSidebar": "打开侧边栏"
+  },
+  "bedSizeInput": {
+    "title": "床的尺寸",
+    "bedDimensions": "床的尺寸",
+    "width": "宽度",
+    "length": "长度",
+    "measurementsIn": "测量单位",
+    "units": {
+      "inches": "英寸",
+      "meters": "米",
+      "centimeters": "厘米",
+      "millimeters": "毫米"
+    }
   }
 }

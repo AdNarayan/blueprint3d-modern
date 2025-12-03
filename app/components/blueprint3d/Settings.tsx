@@ -35,6 +35,8 @@ export function Settings({ onUnitChange, languageMap = {} }: SettingsProps) {
     localStorage.setItem('dimensionUnit', unit)
     // Notify parent component
     onUnitChange?.(unit)
+    // Dispatch custom event for same-window listeners (like BedSizeInput)
+    window.dispatchEvent(new CustomEvent('dimensionUnitChanged', { detail: { unit } }))
   }
 
   const handleLanguageChange = (newLocale: string) => {

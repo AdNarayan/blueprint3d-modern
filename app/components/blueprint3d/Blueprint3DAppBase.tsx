@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { useI18n } from '../../providers/I18nProvider'
 import { Sidebar } from './Sidebar'
 import { ContextMenu } from './ContextMenu'
+import { BedSizeInput } from './BedSizeInput'
 import { CameraControls } from './CameraControls'
 import { MainControls } from './MainControls'
 import { FloorplannerControls } from './FloorplannerControls'
@@ -46,6 +47,9 @@ export interface Blueprint3DAppConfig {
 
   // Blueprint3D instance callback
   onBlueprint3DReady?: (blueprint3d: Blueprint3d) => void
+
+  // Bed size change callback (for generator mode)
+  onBedSizeChange?: (width: number, length: number) => void
 }
 
 interface Blueprint3DAppBaseProps {
@@ -61,7 +65,8 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
     onSidebarToggle: externalOnSidebarToggle,
     ensureUserSession,
     mode = 'normal',
-    onBlueprint3DReady
+    onBlueprint3DReady,
+    onBedSizeChange
   } = config
 
   const i18n = useI18n()
@@ -617,6 +622,9 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
         )}
         {textureType && (
           <TextureSelector type={textureType} onTextureSelect={handleTextureSelect} />
+        )}
+        {mode === 'generator' && !selectedItem && !textureType && onBedSizeChange && (
+          <BedSizeInput onSizeChange={onBedSizeChange} />
         )}
       </Sidebar>
 

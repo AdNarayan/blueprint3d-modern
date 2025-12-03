@@ -204,5 +204,18 @@
     "saveError": "儲存失敗，請再試一次。",
     "quotaError": "儲存空間已滿，請刪除一些舊平面圖以釋放空間。",
     "openSidebar": "開啟側邊欄"
+  },
+  "bedSizeInput": {
+    "title": "床的尺寸",
+    "bedDimensions": "床的尺寸",
+    "width": "寬度",
+    "length": "長度",
+    "measurementsIn": "尺寸單位",
+    "units": {
+      "inches": "英吋",
+      "meters": "公尺",
+      "centimeters": "公分",
+      "millimeters": "公釐"
+    }
   }
 }
