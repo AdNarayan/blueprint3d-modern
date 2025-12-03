@@ -40,6 +40,9 @@ export interface Blueprint3DAppConfig {
 
   // Session management for anonymous users
   ensureUserSession?: () => Promise<boolean>
+
+  // Mode: 'normal' shows all items, 'generator' shows only doors and windows
+  mode?: 'normal' | 'generator'
 }
 
 interface Blueprint3DAppBaseProps {
@@ -53,7 +56,8 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
     enableWheelZoom = true,
     externalSidebarCollapsed,
     onSidebarToggle: externalOnSidebarToggle,
-    ensureUserSession
+    ensureUserSession,
+    mode = 'normal'
   } = config
 
   const i18n = useI18n()
@@ -688,7 +692,7 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
           className="w-full h-full overflow-y-auto p-5"
           style={{ display: activeTab === 'items' ? 'block' : 'none' }}
         >
-          {activeTab === 'items' && <ItemsList onItemSelect={handleItemSelect} />}
+          {activeTab === 'items' && <ItemsList onItemSelect={handleItemSelect} mode={mode} />}
         </div>
 
         {/* My Floorplans */}
