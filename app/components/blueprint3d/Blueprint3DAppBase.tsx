@@ -43,6 +43,9 @@ export interface Blueprint3DAppConfig {
 
   // Mode: 'normal' shows all items, 'generator' shows only doors and windows
   mode?: 'normal' | 'generator'
+
+  // Blueprint3D instance callback
+  onBlueprint3DReady?: (blueprint3d: Blueprint3d) => void
 }
 
 interface Blueprint3DAppBaseProps {
@@ -57,7 +60,8 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
     externalSidebarCollapsed,
     onSidebarToggle: externalOnSidebarToggle,
     ensureUserSession,
-    mode = 'normal'
+    mode = 'normal',
+    onBlueprint3DReady
   } = config
 
   const i18n = useI18n()
@@ -113,6 +117,11 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
 
     const blueprint3d = new Blueprint3d(opts)
     blueprint3dRef.current = blueprint3d
+
+    // Notify parent component that blueprint3d is ready
+    if (onBlueprint3DReady) {
+      onBlueprint3DReady(blueprint3d)
+    }
 
     // Setup callbacks
     blueprint3d.three.itemSelectedCallbacks.add((item) => {
