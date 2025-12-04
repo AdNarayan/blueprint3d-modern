@@ -164,17 +164,19 @@ export function BedSizeInput({
 
   return (
     <div className="mx-5 mb-4">
-      <span className="text-lg font-semibold">{t('title')}</span>
-      <br />
-      <br />
-      <div className="border border-border rounded">
-        <div className="bg-muted px-4 py-3 border-b border-border">
-          <h3 className="font-medium">{t('bedDimensions')}</h3>
+      <div className="bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary/20 rounded-lg shadow-sm">
+        <div className="bg-primary/90 px-4 py-3 border-b border-primary/30 rounded-t-lg">
+          <h3 className="font-semibold text-primary-foreground flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+            </svg>
+            {t('bedDimensions')}
+          </h3>
         </div>
-        <div className="p-4 text-foreground">
+        <div className="p-5 bg-card/50 backdrop-blur-sm">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <label className="w-20 text-sm">{t('width')}</label>
+              <label className="w-20 text-sm font-medium text-foreground">{t('width')}</label>
               <Input
                 type="number"
                 value={width}
@@ -182,10 +184,11 @@ export function BedSizeInput({
                 min={widthMinMax.min}
                 max={widthMinMax.max}
                 step={widthMinMax.step}
+                className="font-mono font-semibold"
               />
             </div>
             <div className="flex items-center gap-3">
-              <label className="w-20 text-sm">{t('length')}</label>
+              <label className="w-20 text-sm font-medium text-foreground">{t('length')}</label>
               <Input
                 type="number"
                 value={length}
@@ -193,12 +196,18 @@ export function BedSizeInput({
                 min={lengthMinMax.min}
                 max={lengthMinMax.max}
                 step={lengthMinMax.step}
+                className="font-mono font-semibold"
               />
             </div>
           </div>
-          <small className="text-muted-foreground text-xs mt-3 block">
-            {t('measurementsIn')} {getUnitLabel(currentUnit)}.
-          </small>
+          <div className="mt-4 pt-3 border-t border-border/50">
+            <small className="text-muted-foreground text-xs flex items-center gap-1">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {t('measurementsIn')} {getUnitLabel(currentUnit)}
+            </small>
+          </div>
         </div>
       </div>
     </div>

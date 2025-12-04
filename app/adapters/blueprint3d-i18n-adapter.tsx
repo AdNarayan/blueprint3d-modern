@@ -27,6 +27,7 @@ export function Blueprint3DI18nAdapter({ children }: { children: React.ReactNode
   const tTextureSelector = useTranslations('textureSelector')
   const tContextMenu = useTranslations('contextMenu')
   const tMainControls = useTranslations('mainControls')
+  const tBedSizeInput = useTranslations('bedSizeInput')
 
   // Map namespace to translation function
   const translationMap = useMemo(
@@ -39,9 +40,10 @@ export function Blueprint3DI18nAdapter({ children }: { children: React.ReactNode
       settings: tSettings,
       textureSelector: tTextureSelector,
       contextMenu: tContextMenu,
-      mainControls: tMainControls
+      mainControls: tMainControls,
+      bedSizeInput: tBedSizeInput
     }),
-    [tSaveDialog, tItems, tFloorplanner, tSidebar, tMyFloorplans, tSettings, tTextureSelector, tContextMenu, tMainControls]
+    [tSaveDialog, tItems, tFloorplanner, tSidebar, tMyFloorplans, tSettings, tTextureSelector, tContextMenu, tMainControls, tBedSizeInput]
   )
 
   // Create translation function factory
