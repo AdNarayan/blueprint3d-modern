@@ -677,7 +677,16 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
           {/* Loading modal */}
           {itemsLoading > 0 && (
             <div id="loading-modal">
-              <h1>{tMyFloorplans('loading')}</h1>
+              <div className="loading-content">
+                <p>
+                  {tMyFloorplans('loading')}
+                  <span className="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </p>
+              </div>
             </div>
           )}
         </div>
