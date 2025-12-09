@@ -49,6 +49,9 @@ export interface Blueprint3DAppConfig {
 
   // show setting language
   isLanguageOption?: boolean
+
+  // Open 'my-floorplans' tab on initialization
+  openMyFloorplans?: boolean
 }
 
 interface Blueprint3DAppBaseProps {
@@ -64,7 +67,8 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
     mode = 'normal',
     onBlueprint3DReady,
     onBedSizeChange,
-    isLanguageOption = true
+    isLanguageOption = true,
+    openMyFloorplans = false
   } = config
 
   const i18n = useI18n()
@@ -82,7 +86,7 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
 
   const [activeTab, setActiveTab] = useState<
     'floorplan' | 'design' | 'items' | 'settings' | 'my-floorplans'
-  >('design')
+  >(openMyFloorplans ? 'my-floorplans' : 'design')
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const [floorplannerMode, setFloorplannerMode] = useState<'move' | 'draw' | 'delete'>('move')
   const [textureType, setTextureType] = useState<'floor' | 'wall' | null>(null)
