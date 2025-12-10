@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import { ITEMS, type ItemCategory } from '@blueprint3d/constants'
 import { useI18n } from '../../providers/I18nProvider'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
 
 interface ItemsListProps {
   onItemSelect: (item: { name: string; model: string; type: string }) => void
@@ -70,15 +70,19 @@ export function ItemsList({ onItemSelect, mode = 'normal' }: ItemsListProps) {
   return (
     <div className="space-y-4">
       {/* Category Filter */}
-      <Tabs value={selectedCategory} onValueChange={(value) => setSelectedCategory(value as ItemCategory | 'all')}>
-        <TabsList className="w-full justify-start flex-wrap">
-          {categories.map((category) => (
-            <TabsTrigger key={category.value} value={category.value} className="whitespace-nowrap">
-              {category.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      <div className="flex flex-wrap gap-2">
+        {categories.map((category) => (
+          <Button
+            key={category.value}
+            variant={selectedCategory === category.value ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setSelectedCategory(category.value)}
+            className="whitespace-nowrap"
+          >
+            {category.label}
+          </Button>
+        ))}
+      </div>
 
       {/* Items Grid */}
       <div className="grid grid-cols-4 gap-3">

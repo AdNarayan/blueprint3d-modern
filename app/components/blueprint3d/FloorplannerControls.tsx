@@ -23,7 +23,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
         <div className={cn('flex', isMobile ? 'gap-1' : 'gap-2')}>
           <Button
             size={isMobile ? 'icon' : 'sm'}
-            variant={mode === 'move' ? 'secondary' : 'default'}
+            variant={mode === 'move' ? 'default' : 'secondary'}
             onClick={() => onModeChange('move')}
             className={cn(!isMobile && 'flex items-center gap-2', isMobile && 'h-9 w-9 shadow-md')}
             title={isMobile ? t('moveWalls') : undefined}
@@ -33,7 +33,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
           </Button>
           <Button
             size={isMobile ? 'icon' : 'sm'}
-            variant={mode === 'draw' ? 'secondary' : 'default'}
+            variant={mode === 'draw' ? 'default' : 'secondary'}
             onClick={() => onModeChange('draw')}
             className={cn(!isMobile && 'flex items-center gap-2', isMobile && 'h-9 w-9 shadow-md')}
             title={isMobile ? t('drawWalls') : undefined}
@@ -43,7 +43,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
           </Button>
           <Button
             size={isMobile ? 'icon' : 'sm'}
-            variant={mode === 'delete' ? 'secondary' : 'default'}
+            variant={mode === 'delete' ? 'default' : 'secondary'}
             onClick={() => onModeChange('delete')}
             className={cn(!isMobile && 'flex items-center gap-2', isMobile && 'h-9 w-9 shadow-md')}
             title={isMobile ? t('deleteWalls') : undefined}
@@ -55,7 +55,7 @@ export function FloorplannerControls({ mode, onModeChange, onDone }: Floorplanne
 
         <Button
           size={isMobile ? 'sm' : 'sm'}
-          variant="secondary"
+          variant="default"
           onClick={onDone}
           className={cn(isMobile && 'shadow-md')}
         >
