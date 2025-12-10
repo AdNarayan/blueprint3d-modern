@@ -87,6 +87,21 @@
     }
   },
   "items": {
+    "categories": {
+      "all": "All",
+      "bed": "Beds",
+      "drawer": "Drawers",
+      "wardrobe": "Wardrobes",
+      "light": "Lights",
+      "storage": "Storage",
+      "table": "Tables",
+      "chair": "Chairs",
+      "sofa": "Sofas",
+      "armchair": "Armchairs",
+      "stool": "Stools",
+      "door": "Doors",
+      "window": "Windows"
+    },
     "loadingItem": "Loading \"{name}\"...",
     "loadedSuccess": "\"{name}\" loaded successfully",
     "loadError": "Failed to load \"{name}\"",

@@ -12,27 +12,25 @@ interface ItemsListProps {
   mode?: 'normal' | 'generator'
 }
 
-const CATEGORIES: Array<{ value: ItemCategory | 'all'; label: string }> = [
-  { value: 'all', label: 'All' },
-  { value: 'bed', label: 'Beds' },
-  { value: 'drawer', label: 'Drawers' },
-  { value: 'wardrobe', label: 'Wardrobes' },
-  { value: 'light', label: 'Lights' },
-  { value: 'storage', label: 'Storage' },
-  { value: 'table', label: 'Tables' },
-  { value: 'chair', label: 'Chairs' },
-  { value: 'sofa', label: 'Sofas' },
-  { value: 'armchair', label: 'Armchairs' },
-  { value: 'stool', label: 'Stools' },
-  { value: 'door', label: 'Doors' },
-  { value: 'window', label: 'Windows' }
-]
+const CATEGORY_KEYS = {
+  'all': 'all',
+  'bed': 'bed',
+  'drawer': 'drawer',
+  'wardrobe': 'wardrobe',
+  'light': 'light',
+  'storage': 'storage',
+  'table': 'table',
+  'chair': 'chair',
+  'sofa': 'sofa',
+  'armchair': 'armchair',
+  'stool': 'stool',
+  'door': 'door',
+  'window': 'window'
+} as const
 
-const GENERATOR_MODE_CATEGORIES: Array<{ value: ItemCategory | 'all'; label: string }> = [
-  { value: 'all', label: 'All' },
-  { value: 'door', label: 'Doors' },
-  { value: 'window', label: 'Windows' }
-]
+const CATEGORY_VALUES: Array<ItemCategory | 'all'> = ['all', 'bed', 'drawer', 'wardrobe', 'light', 'storage', 'table', 'chair', 'sofa', 'armchair', 'stool', 'door', 'window']
+
+const GENERATOR_MODE_CATEGORY_VALUES: Array<ItemCategory | 'all'> = ['all', 'door', 'window']
 
 export function ItemsList({ onItemSelect, mode = 'normal' }: ItemsListProps) {
   const i18n = useI18n()
@@ -42,7 +40,15 @@ export function ItemsList({ onItemSelect, mode = 'normal' }: ItemsListProps) {
   const [selectedCategory, setSelectedCategory] = useState<ItemCategory | 'all'>('all')
 
   // Determine which categories to show based on mode
-  const categories = mode === 'generator' ? GENERATOR_MODE_CATEGORIES : CATEGORIES
+  const categoryValues = mode === 'generator' ? GENERATOR_MODE_CATEGORY_VALUES : CATEGORY_VALUES
+
+  // Build categories with translated labels
+  const categories = useMemo(() => {
+    return categoryValues.map(value => ({
+      value,
+      label: t(`categories.${CATEGORY_KEYS[value]}`)
+    }))
+  }, [t])
 
   // Filter items based on selected category and mode
   const filteredItems = useMemo(() => {
@@ -65,7 +71,7 @@ export function ItemsList({ onItemSelect, mode = 'normal' }: ItemsListProps) {
     <div className="space-y-4">
       {/* Category Filter */}
       <Tabs value={selectedCategory} onValueChange={(value) => setSelectedCategory(value as ItemCategory | 'all')}>
-        <TabsList className="w-full justify-start overflow-x-auto flex-nowrap">
+        <TabsList className="w-full justify-start flex-wrap">
           {categories.map((category) => (
             <TabsTrigger key={category.value} value={category.value} className="whitespace-nowrap">
               {category.label}

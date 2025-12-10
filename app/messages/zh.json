@@ -87,6 +87,21 @@
     }
   },
   "items": {
+    "categories": {
+      "all": "全部",
+      "bed": "床",
+      "drawer": "抽屉",
+      "wardrobe": "衣柜",
+      "light": "灯具",
+      "storage": "储物柜",
+      "table": "桌子",
+      "chair": "椅子",
+      "sofa": "沙发",
+      "armchair": "扶手椅",
+      "stool": "凳子",
+      "door": "门",
+      "window": "窗户"
+    },
     "loadingItem": "正在加载\"{name}\"...",
     "loadedSuccess": "{name} 加载成功",
     "loadError": "\"{name}\"加载失败",
