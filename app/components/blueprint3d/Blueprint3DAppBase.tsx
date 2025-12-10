@@ -52,6 +52,10 @@ export interface Blueprint3DAppConfig {
 
   // Open 'my-floorplans' tab on initialization
   openMyFloorplans?: boolean
+
+  // Fullscreen state (controlled component)
+  isFullscreen?: boolean
+  onFullscreenToggle?: () => void
 }
 
 interface Blueprint3DAppBaseProps {
@@ -68,7 +72,9 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
     onBlueprint3DReady,
     onBedSizeChange,
     isLanguageOption = true,
-    openMyFloorplans = false
+    openMyFloorplans = false,
+    isFullscreen = false,
+    onFullscreenToggle
   } = config
 
   const i18n = useI18n()
@@ -309,6 +315,11 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
     blueprint3dRef.current.three.setViewMode(mode)
     setViewMode(mode)
   }, [])
+
+  // Fullscreen toggle
+  const handleFullscreenToggle = useCallback(() => {
+    onFullscreenToggle?.()
+  }, [onFullscreenToggle])
 
   // Item controls
   const handleDeleteItem = useCallback(() => {
@@ -620,20 +631,22 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
   return (
     <div className="flex h-full w-full">
       <div ref={contentRef} className="flex-1 relative overflow-hidden">
-        {/* Floating Toggle Button (shown when collapsed) */}
-        <div className="absolute top-16.5 right-5 ">
-          <Button
-            onClick={() => handleSidebarToggle(false)}
-            size="icon"
-            className={cn(
-              'gradient-background text-primary-foreground rounded-full shadow-lg transition-all duration-300',
-              isSidebarCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'
-            )}
-            aria-label={t('openSidebar')}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
-        </div>
+        {/* Floating Toggle Button (shown when collapsed and not fullscreen) */}
+        {!isFullscreen && (
+          <div className="absolute top-16.5 right-5 ">
+            <Button
+              onClick={() => handleSidebarToggle(false)}
+              size="icon"
+              className={cn(
+                'gradient-background text-primary-foreground rounded-full shadow-lg transition-all duration-300',
+                isSidebarCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'
+              )}
+              aria-label={t('openSidebar')}
+            >
+              <Menu className="h-6 w-6" />
+            </Button>
+          </div>
+        )}
         {/* 3D Viewer */}
         <div
           id="viewer"
@@ -643,22 +656,30 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
         >
           {activeTab === 'design' && (
             <>
-              <MainControls
-                onNew={handleNew}
-                onSave={handleSave}
-                onDownload={handleDownload}
-                onLoad={handleLoad}
-              />
-
-              <ViewToggle viewMode={viewMode} onViewChange={handleViewChange} />
-              <CameraControls
-                onZoomIn={handleZoomIn}
-                onZoomOut={handleZoomOut}
-                onResetView={handleResetView}
-                onMoveLeft={() => handleMove('left')}
-                onMoveRight={() => handleMove('right')}
-                onMoveUp={() => handleMove('up')}
-                onMoveDown={() => handleMove('down')}
+              {!isFullscreen && (
+                <>
+                  <MainControls
+                    onNew={handleNew}
+                    onSave={handleSave}
+                    onDownload={handleDownload}
+                    onLoad={handleLoad}
+                  />
+                  <CameraControls
+                    onZoomIn={handleZoomIn}
+                    onZoomOut={handleZoomOut}
+                    onResetView={handleResetView}
+                    onMoveLeft={() => handleMove('left')}
+                    onMoveRight={() => handleMove('right')}
+                    onMoveUp={() => handleMove('up')}
+                    onMoveDown={() => handleMove('down')}
+                  />
+                </>
+              )}
+              <ViewToggle
+                viewMode={viewMode}
+                onViewChange={handleViewChange}
+                isFullscreen={isFullscreen}
+                onFullscreenToggle={handleFullscreenToggle}
               />
             </>
           )}
@@ -687,7 +708,7 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
           style={{ display: activeTab === 'floorplan' ? 'block' : 'none' }}
         >
           <canvas id="floorplanner-canvas" ref={floorplannerCanvasRef}></canvas>
-          {activeTab === 'floorplan' && (
+          {activeTab === 'floorplan' && !isFullscreen && (
             <>
               <FloorplannerControls
                 mode={floorplannerMode}
@@ -742,27 +763,29 @@ export function Blueprint3DAppBase({ config = {} }: Blueprint3DAppBaseProps) {
         </div>
       </div>
 
-      <Sidebar
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
-        isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={handleSidebarToggle}
-      >
-        {selectedItem && !textureType && (
-          <ContextMenu
-            selectedItem={selectedItem}
-            onDelete={handleDeleteItem}
-            onResize={handleResizeItem}
-            onFixedChange={handleFixedChange}
-          />
-        )}
-        {textureType && (
-          <TextureSelector type={textureType} onTextureSelect={handleTextureSelect} />
-        )}
-        {mode === 'generator' && !selectedItem && !textureType && onBedSizeChange && (
-          <BedSizeInput onSizeChange={onBedSizeChange} />
-        )}
-      </Sidebar>
+      {!isFullscreen && (
+        <Sidebar
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={handleSidebarToggle}
+        >
+          {selectedItem && !textureType && (
+            <ContextMenu
+              selectedItem={selectedItem}
+              onDelete={handleDeleteItem}
+              onResize={handleResizeItem}
+              onFixedChange={handleFixedChange}
+            />
+          )}
+          {textureType && (
+            <TextureSelector type={textureType} onTextureSelect={handleTextureSelect} />
+          )}
+          {mode === 'generator' && !selectedItem && !textureType && onBedSizeChange && (
+            <BedSizeInput onSizeChange={onBedSizeChange} />
+          )}
+        </Sidebar>
+      )}
 
       {/* Save Floorplan Dialog */}
       <SaveFloorplanDialog
