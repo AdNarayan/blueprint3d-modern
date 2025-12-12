@@ -148,8 +148,10 @@ export class Controller {
 
       this.mouseMoved = true
 
-      this.mouse.x = event.clientX
-      this.mouse.y = event.clientY
+      // Get element's bounding rect dynamically for accurate positioning
+      const rect = this.element.getBoundingClientRect()
+      this.mouse.x = event.clientX - rect.left
+      this.mouse.y = event.clientY - rect.top
 
       if (!this.mouseDown) {
         this.updateIntersections()
@@ -337,10 +339,9 @@ export class Controller {
   // sets coords to -1 to 1
   private normalizeVector2(vec2: THREE.Vector2): THREE.Vector2 {
     const retVec = new THREE.Vector2()
-    retVec.x =
-      ((vec2.x - this.three.widthMargin) / (window.innerWidth - this.three.widthMargin)) * 2 - 1
-    retVec.y =
-      -((vec2.y - this.three.heightMargin) / (window.innerHeight - this.three.heightMargin)) * 2 + 1
+    // vec2 now contains coordinates relative to the element (0 to elementWidth/Height)
+    retVec.x = (vec2.x / this.three.elementWidth) * 2 - 1
+    retVec.y = -(vec2.y / this.three.elementHeight) * 2 + 1
     return retVec
   }
 
