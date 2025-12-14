@@ -4,8 +4,6 @@ A modernized 3D interior design application built on Three.js that allows users 
 
 **[🚀 Live Demo](https://blueprint3d-modern.vercel.app/)**
 
-This project is a comprehensive modernization of [furnishup/blueprint3d](https://github.com/furnishup/blueprint3d), originally created 9 years ago.
-
 ## Features
 
 - **2D Floor Planning**: Create and edit floor plans with walls, doors, and windows
